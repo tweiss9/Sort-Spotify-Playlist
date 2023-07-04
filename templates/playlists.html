@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist Viewer - Playlists</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <h1>My Playlists</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Cover</th>
+          <th>Playlist Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for playlist in playlists['items'] %}
+        <tr>
+          <td>
+            <img
+              src="{{ playlist['images'][0]['url'] }}"
+              alt="Playlist Cover"
+              class="playlist-cover"
+            />
+          </td>
+          <td>{{ playlist['name'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
