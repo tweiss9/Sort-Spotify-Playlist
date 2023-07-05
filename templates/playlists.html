@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Playlist Viewer - Playlists</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
   </head>
   <body>
     <h1>My Playlists</h1>
@@ -16,14 +19,18 @@
         </tr>
       </thead>
       <tbody>
-        {% for playlist in playlists['items'] %}
+        {% for playlist in playlists %}
         <tr>
           <td>
-            <img
-              src="{{ playlist['images'][0]['url'] }}"
-              alt="Playlist Cover"
-              class="playlist-cover"
-            />
+            <a
+              href="{{ url_for('playlist_detail', playlist_id=playlist['id']) }}"
+            >
+              <img
+                src="{{ playlist['images'][0]['url'] }}"
+                alt="Playlist Cover"
+                class="playlist-cover"
+              />
+            </a>
           </td>
           <td>{{ playlist['name'] }}</td>
         </tr>

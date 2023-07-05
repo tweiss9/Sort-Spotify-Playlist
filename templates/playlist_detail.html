@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist Detail</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <h1>
+      <img
+        src="{{ playlist_cover }}"
+        alt="Playlist Cover"
+        class="playlist-cover"
+      />
+      {{ playlist_name }}
+    </h1>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Album Cover</th>
+          <th>Song Name</th>
+          <th>Album</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for song in songs %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>
+            <img
+              src="{{ song.album_cover }}"
+              alt="Album Cover"
+              class="album-cover"
+            />
+          </td>
+          <td>{{ song.name }}</td>
+          <td>{{ song.album }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
