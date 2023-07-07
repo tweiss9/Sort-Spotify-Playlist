@@ -4,14 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Playlist Viewer - Playlists</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='playlists.css') }}" />
-    <script>
-      function redirectToPlaylistDetail(playlistId) {
-        var url = "{{ url_for('playlist_detail', playlist_id='__placeholder__') }}";
-        url = url.replace("__placeholder__", playlistId);
-        window.location.href = url;
-      }
-    </script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/playlists.css') }}"
+    />
+    <script src="{{ url_for('static', filename='js/playlists.js') }}"></script>
   </head>
   <body>
     <h1>Playlist List</h1>
@@ -29,7 +26,11 @@
         <tr onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
           <td>
             <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
-              <img src="{{ playlist.images[0].url }}" alt="Playlist Cover" class="playlist-cover" />
+              <img
+                src="{{ playlist.images[0].url }}"
+                alt="Playlist Cover"
+                class="playlist-cover"
+              />
             </a>
           </td>
           <td>{{ playlist.name }}</td>

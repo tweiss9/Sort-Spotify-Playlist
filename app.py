@@ -45,7 +45,7 @@ def callback():
         client_id=client_id,
         client_secret=client_secret,
         redirect_uri=redirect_uri,
-    ).get_access_token(code)
+    ).get_cached_token(code)
     session["token_info"] = token_info
     return redirect("/playlists")
 
@@ -89,6 +89,15 @@ def playlist_detail(playlist_id):
 
     return render_template("playlist_detail.html", playlist_name=playlist['name'], songs=formatted_songs, playlist_cover=playlist['images'][0]['url'])
 
-
+@app.route("/execute_python", methods=["POST"])
+def execute_python():
+    python_file = request.json["python_file"]
+    try:
+        print(f"Executing {python_file}...")
+        exec(open(f"python/{python_file}").read())
+        return "Python file executed successfully."
+    except Exception as e:
+        return f"An error occurred: {e}"
+    
 if __name__ == "__main__":
     app.run(debug=True)

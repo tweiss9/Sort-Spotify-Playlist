@@ -6,8 +6,9 @@
     <title>Playlist Detail</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='playlist_detail.css') }}"
+      href="{{ url_for('static', filename='css/playlist_detail.css') }}"
     />
+    <script src="{{ url_for('static', filename='js/playlist_detail.js') }}"></script>
   </head>
   <body>
     <h1>
@@ -18,6 +19,18 @@
       />
       {{ playlist_name }}
     </h1>
+    <label for="dropdown1">Sort By:</label>
+    <select id="dropdown1" class="dropdown">
+      <option value="releaseDateNewOld">Release Date (New-Old)</option>
+      <option value="releaseDateOldNew">Release Date (Old-New)</option>
+    </select>
+    <label for="dropdown2">Create or Update:</label>
+    <select id="dropdown2" class="dropdown">
+      <option value="create" selected>Create a New Playlist</option>
+      <option value="update">Update the Existing Playlist</option>
+    </select>
+    <button class="organize-button" onclick="showProgress()">Organize</button>
+    <div id="progress" class="progress">Progress...</div>
     <table>
       <thead>
         <tr>

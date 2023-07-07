@@ -20,3 +20,8 @@ th {
   height: 50px;
   object-fit: cover;
 }
+
+.progress {
+  display: none;
+  /* Styles for the progress indicator */
+}
