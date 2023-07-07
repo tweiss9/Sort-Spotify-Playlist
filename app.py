@@ -64,6 +64,10 @@ def playlists():
     user_playlists = [
         playlist for playlist in playlists if playlist['owner']['id'] == sp.me()['id']]
 
+    for playlist in user_playlists:
+        playlist['track_count'] = sp.playlist_tracks(
+            playlist['id'], fields='total')['total']
+
     return render_template("playlists.html", playlists=user_playlists)
 
 

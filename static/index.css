@@ -1,0 +1,23 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: rgb(0,74,4);
+  background: radial-gradient(circle, rgba(0,74,4,1) 25%, rgba(6,97,0,1) 50%, rgba(0,118,23,1) 75%, rgba(12,169,0,1) 100%);  color : white;
+}
+
+.spotify-button {
+  display: inline-block;
+  background-color: #1db954;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 20px;
+}

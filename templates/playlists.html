@@ -4,35 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Playlist Viewer - Playlists</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles.css') }}"
-    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='playlists.css') }}" />
+    <script>
+      function redirectToPlaylistDetail(playlistId) {
+        var url = "{{ url_for('playlist_detail', playlist_id='__placeholder__') }}";
+        url = url.replace("__placeholder__", playlistId);
+        window.location.href = url;
+      }
+    </script>
   </head>
   <body>
-    <h1>My Playlists</h1>
+    <h1>Playlist List</h1>
+    <p>Click on a playlist to get started</p>
     <table>
       <thead>
         <tr>
           <th>Cover</th>
           <th>Playlist Name</th>
+          <th>Track Count</th>
         </tr>
       </thead>
       <tbody>
         {% for playlist in playlists %}
-        <tr>
+        <tr onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
           <td>
-            <a
-              href="{{ url_for('playlist_detail', playlist_id=playlist['id']) }}"
-            >
-              <img
-                src="{{ playlist['images'][0]['url'] }}"
-                alt="Playlist Cover"
-                class="playlist-cover"
-              />
+            <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
+              <img src="{{ playlist.images[0].url }}" alt="Playlist Cover" class="playlist-cover" />
             </a>
           </td>
-          <td>{{ playlist['name'] }}</td>
+          <td>{{ playlist.name }}</td>
+          <td>{{ playlist.tracks.total }}</td>
         </tr>
         {% endfor %}
       </tbody>
