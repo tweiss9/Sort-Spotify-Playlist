@@ -38,14 +38,16 @@ def login():
 
 
 @app.route("/callback")
+@app.route("/callback")
 def callback():
     code = request.args.get("code")
-    token_info = SpotifyOAuth(
+    sp_oauth = SpotifyOAuth(
         scope=scope,
         client_id=client_id,
         client_secret=client_secret,
-        redirect_uri=redirect_uri,
-    ).get_cached_token(code)
+        redirect_uri=redirect_uri
+    )
+    token_info = sp_oauth.get_cached_token()
     session["token_info"] = token_info
     return redirect("/playlists")
 
