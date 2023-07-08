@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request, session
 from spotipy.oauth2 import SpotifyOAuth
-from python.config import scope, client_id, client_secret, redirect_uri
-import spotipy
+from python.config import sp, scope, client_id, client_secret, redirect_uri
 import os
 
 app = Flask(__name__)
@@ -44,10 +43,7 @@ def playlists():
     token_info = session.get("token_info", None)
     if not token_info:
         return redirect("/login")
-
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-        scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
-
+    
     playlists = sp.current_user_playlists()['items']
 
     user_playlists = [
@@ -63,8 +59,6 @@ def playlists():
 @app.route("/playlist/<playlist_id>")
 def playlist_detail(playlist_id):
     session['playlist_id'] = playlist_id
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
-        scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri))
     playlist = sp.playlist(playlist_id)
     songs = playlist['tracks']['items']
 
