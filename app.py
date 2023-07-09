@@ -93,12 +93,13 @@ def get_playlist_id():
 def execute_python():
     python_file = request.json["python_file"]
     is_reverse = request.json["is_reverse"]
+    is_new = request.json["is_new"]
     try:
         print(f"Executing {python_file} with is_reverse={is_reverse}...")
         file_path = f"python/{python_file}"
         with open(file_path) as f:
             code = compile(f.read(), file_path, 'exec')
-            exec(code, globals(), {'is_reverse': is_reverse})
+            exec(code, globals(), {'is_reverse': is_reverse, 'is_new': is_new})
         return "Python file executed successfully."
     except Exception as e:
         return f"An error occurred: {e}"

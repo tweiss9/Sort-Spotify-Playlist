@@ -5,22 +5,22 @@ function showProgress() {
   var selectedOption2 = dropdown2.options[dropdown2.selectedIndex].value;
 
   if (selectedOption1 === "releaseDateNewOld" && selectedOption2 === "create") {
-    executePythonFile("releaseDate.py", true);
+    executePythonFile("releaseDate.py", true, true);
   } else if (
     selectedOption1 === "releaseDateOldNew" &&
     selectedOption2 === "create"
   ) {
-    executePythonFile("releaseDate.py", false);
+    executePythonFile("releaseDate.py", false, true);
   } else if (
     selectedOption1 === "releaseDateNewOld" &&
     selectedOption2 === "update"
   ) {
-    //executePythonFile("releaseDate.py");
+    executePythonFile("releaseDate.py", true, false);
   } else if (
     selectedOption1 === "releaseDateOldNew" &&
     selectedOption2 === "update"
   ) {
-    //executePythonFile("releaseDate.py");
+    executePythonFile("releaseDate.py", false, false);
   } else {
     console.log("Default action");
   }
@@ -32,7 +32,7 @@ function showProgress() {
   }, 3000);
 }
 
-function executePythonFile(pythonFile, isReverse) {
+function executePythonFile(pythonFile, isReverse, isNew) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/execute_python", true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -45,6 +45,6 @@ function executePythonFile(pythonFile, isReverse) {
       }
     }
   };
-  var data = JSON.stringify({ python_file: pythonFile, is_reverse: isReverse });
+  var data = JSON.stringify({ python_file: pythonFile, is_reverse: isReverse, is_new: isNew });
   xhr.send(data);
 }
