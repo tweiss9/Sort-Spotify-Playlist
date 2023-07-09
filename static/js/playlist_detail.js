@@ -1,4 +1,4 @@
-function showProgress() {
+function organize() {
   var dropdown1 = document.getElementById("dropdown1");
   var dropdown2 = document.getElementById("dropdown2");
   var selectedOption1 = dropdown1.options[dropdown1.selectedIndex].value;
@@ -67,9 +67,6 @@ function showProgress() {
 
   var progress = document.getElementById("progress");
   progress.style.display = "block";
-  setTimeout(function () {
-    progress.style.display = "none";
-  }, 3000);
 }
 
 function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
@@ -79,9 +76,9 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
+        showCompleted();
       } else {
-        console.error("An error occurred while executing the Python file.");
+        showErrorMessage();
       }
     }
   };
@@ -92,4 +89,18 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
     is_new: isNew,
   });
   xhr.send(data);
+}
+function showCompleted() {
+  var progress = document.getElementById("progress");
+  progress.innerText = "Completed!";
+  setTimeout(function () {
+    progress.style.display = "none";
+  }, 5000);
+}
+function showErrorMessage() {
+  var progress = document.getElementById("progress");
+  progress.innerText = "Error";
+  setTimeout(function () {
+    progress.style.display = "none";
+  }, 5000);
 }
