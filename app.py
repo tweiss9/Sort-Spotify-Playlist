@@ -92,12 +92,13 @@ def get_playlist_id():
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
     python_file = request.json["python_file"]
+    is_reverse = request.json["is_reverse"]
     try:
-        print(f"Executing {python_file}...")
+        print(f"Executing {python_file} with is_reverse={is_reverse}...")
         file_path = f"python/{python_file}"
         with open(file_path) as f:
             code = compile(f.read(), file_path, 'exec')
-            exec(code, globals())
+            exec(code, globals(), {'is_reverse': is_reverse})
         return "Python file executed successfully."
     except Exception as e:
         return f"An error occurred: {e}"

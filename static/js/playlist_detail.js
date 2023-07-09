@@ -5,12 +5,12 @@ function showProgress() {
   var selectedOption2 = dropdown2.options[dropdown2.selectedIndex].value;
 
   if (selectedOption1 === "releaseDateNewOld" && selectedOption2 === "create") {
-    executePythonFile("releaseDate.py");
+    executePythonFile("releaseDate.py", true);
   } else if (
     selectedOption1 === "releaseDateOldNew" &&
     selectedOption2 === "create"
   ) {
-    //executePythonFile("releaseDate.py");
+    executePythonFile("releaseDate.py", false);
   } else if (
     selectedOption1 === "releaseDateNewOld" &&
     selectedOption2 === "update"
@@ -32,7 +32,7 @@ function showProgress() {
   }, 3000);
 }
 
-function executePythonFile(pythonFile) {
+function executePythonFile(pythonFile, isReverse) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/execute_python", true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -45,6 +45,6 @@ function executePythonFile(pythonFile) {
       }
     }
   };
-  var data = JSON.stringify({ python_file: pythonFile });
+  var data = JSON.stringify({ python_file: pythonFile, is_reverse: isReverse });
   xhr.send(data);
 }

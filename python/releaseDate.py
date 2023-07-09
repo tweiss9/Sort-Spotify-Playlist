@@ -1,3 +1,4 @@
+from requests import request
 from app import get_playlist_id
 from python.config import sp
 
@@ -6,6 +7,7 @@ def release_date():
     print("Hello World!")
     playlistId = get_playlist_id()
     print(playlistId)
+    is_reverse = request.json["is_reverse"]
 
     # Retrieve the playlist name
     playlist = sp.playlist(playlist_id=playlistId)
@@ -22,10 +24,10 @@ def release_date():
 
     # Sort tracks by release date
     sorted_tracks = sorted(playlist_tracks, key=lambda x: (
-        x["track"]["album"]["release_date"]), reverse=True)
+        x["track"]["album"]["release_date"]), reverse=is_reverse)
 
     # Create a new playlist for the sorted tracks
-    new_playlist_name = "Sorted Playlist"
+    new_playlist_name = f"Sorted {playlist_name}"
     new_playlist_description = f"Sorted playlist of {playlist_name} by release date"
     new_playlist = sp.user_playlist_create(user=sp.me(
     )["id"], name=new_playlist_name, public=False, description=new_playlist_description)
