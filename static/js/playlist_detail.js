@@ -5,24 +5,64 @@ function showProgress() {
   var selectedOption2 = dropdown2.options[dropdown2.selectedIndex].value;
 
   if (selectedOption1 === "releaseDateNewOld" && selectedOption2 === "create") {
-    executePythonFile("releaseDate.py", true, true);
-  } else if (
-    selectedOption1 === "releaseDateOldNew" &&
-    selectedOption2 === "create"
-  ) {
-    executePythonFile("releaseDate.py", false, true);
+    executePythonFile("sorting_algorithm.py", "release_date", true, true);
   } else if (
     selectedOption1 === "releaseDateNewOld" &&
     selectedOption2 === "update"
   ) {
-    executePythonFile("releaseDate.py", true, false);
+    executePythonFile("sorting_algorithm.py", "release_date", true, false);
+  } else if (
+    selectedOption1 === "releaseDateOldNew" &&
+    selectedOption2 === "create"
+  ) {
+    executePythonFile("sorting_algorithm.py", "release_date", false, true);
   } else if (
     selectedOption1 === "releaseDateOldNew" &&
     selectedOption2 === "update"
   ) {
-    executePythonFile("releaseDate.py", false, false);
+    executePythonFile("sorting_algorithm.py", "release_date", false, false);
+  } else if (
+    selectedOption1 === "trackNameAZ" &&
+    selectedOption2 === "create"
+  ) {
+    executePythonFile("sorting_algorithm.py", "track_name", false, true);
+  } else if (
+    selectedOption1 === "trackNameAZ" &&
+    selectedOption2 === "update"
+  ) {
+    executePythonFile("sorting_algorithm.py", "track_name", false, false);
+  } else if (
+    selectedOption1 === "trackNameZA" &&
+    selectedOption2 === "create"
+  ) {
+    executePythonFile("sorting_algorithm.py", "track_name", true, true);
+  } else if (
+    selectedOption1 === "trackNameZA" &&
+    selectedOption2 === "update"
+  ) {
+    executePythonFile("sorting_algorithm.py", "track_name", true, false);
+  } else if (
+    selectedOption1 === "artistNameAZ" &&
+    selectedOption2 === "create"
+  ) {
+    executePythonFile("sorting_algorithm.py", "artist_name", false, true);
+  } else if (
+    selectedOption1 === "artistNameAZ" &&
+    selectedOption2 === "update"
+  ) {
+    executePythonFile("sorting_algorithm.py", "artist_name", false, false);
+  } else if (
+    selectedOption1 === "artistNameZA" &&
+    selectedOption2 === "create"
+  ) {
+    executePythonFile("sorting_algorithm.py", "artist_name", true, true);
+  } else if (
+    selectedOption1 === "artistNameZA" &&
+    selectedOption2 === "update"
+  ) {
+    executePythonFile("sorting_algorithm.py", "artist_name", true, false);
   } else {
-    console.log("Default action");
+    window.location.href = "/error.html";
   }
 
   var progress = document.getElementById("progress");
@@ -32,7 +72,7 @@ function showProgress() {
   }, 3000);
 }
 
-function executePythonFile(pythonFile, isReverse, isNew) {
+function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/execute_python", true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -45,6 +85,11 @@ function executePythonFile(pythonFile, isReverse, isNew) {
       }
     }
   };
-  var data = JSON.stringify({ python_file: pythonFile, is_reverse: isReverse, is_new: isNew });
+  var data = JSON.stringify({
+    python_file: pythonFile,
+    sorting_type: sortingType,
+    is_reverse: isReverse,
+    is_new: isNew,
+  });
   xhr.send(data);
 }
