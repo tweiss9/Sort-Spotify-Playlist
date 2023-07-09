@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spotify Playlist Viewer</title>
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/index.css') }}"
-  />
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
   </head>
   <body>
+    <!-- <a class="spotify-logo-button" href="/login">
+      <img
+        src="{{ url_for('static', filename='images/spotify_name_logo.png') }}"
+        alt
+        class="spotify-name-logo"
+      /> -->
     <h1>Spotify Playlist Viewer</h1>
-    <p>Sort your Spotify playlists with this website. Click the button below to sign in to get started</p>
-    <a class="spotify-button" href="/login">Sign In with Spotify</a>
+    <p>
+      Sort your Spotify playlists with this website. Click the button below to
+      sign in to get started
+    </p>
+    <a class="spotify-button" href="/login">
+      <img
+        src="{{ url_for('static', filename='images/spotify_logo.png') }}"
+        alt
+        class="spotify-logo"
+      />
+      Sign In with Spotify
+    </a>
   </body>
 </html>

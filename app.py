@@ -1,11 +1,11 @@
 from flask import Flask, render_template, redirect, request, session
 from spotipy.oauth2 import SpotifyOAuth
 from python.config import sp, scope, client_id, client_secret, redirect_uri
+from spotipy.exceptions import SpotifyException
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("PROJECT_SPOTIFY_FLASK_SECRET_KEY")
-app.static_folder = 'static'
 
 # Home route
 @app.route("/")
@@ -59,20 +59,31 @@ def playlists():
 @app.route("/playlist/<playlist_id>")
 def playlist_detail(playlist_id):
     session['playlist_id'] = playlist_id
-    playlist = sp.playlist(playlist_id)
-    songs = playlist['tracks']['items']
 
-    formatted_songs = []
-    for song in songs:
-        song_info = {
-            'name': song['track']['name'],
-            'album': song['track']['album']['name'],
-            'album_cover': song['track']['album']['images'][0]['url']
-        }
-        formatted_songs.append(song_info)
+    try:
+        playlist = sp.playlist(playlist_id)
+        songs = playlist['tracks']['items']
 
-    return render_template("playlist_detail.html", playlist_name=playlist['name'], songs=formatted_songs, playlist_cover=playlist['images'][0]['url'])
+        formatted_songs = []
+        for song in songs:
+            song_info = {
+                'name': song['track']['name'],
+                'album': song['track']['album']['name'],
+                'album_cover': song['track']['album']['images'][0]['url']
+            }
+            formatted_songs.append(song_info)
 
+        return render_template("playlist_detail.html", playlist_name=playlist['name'], songs=formatted_songs, playlist_cover=playlist['images'][0]['url'])
+
+    except SpotifyException as e:
+        if e.http_status == 404:
+            return render_template("playlist_not_found.html")
+
+        # Handle other SpotifyException here
+
+    # Handle other exceptions or errors here
+
+    return render_template("error.html")  # Fallback error page
 @app.route("/playlist/<playlist_id>")
 def get_playlist_id():
     playlist_id = session.get('playlist_id')
