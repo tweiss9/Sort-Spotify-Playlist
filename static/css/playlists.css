@@ -8,6 +8,10 @@
   );
   color: white;
   font-family: "Circular", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .your-playlist-title {
@@ -25,11 +29,12 @@
 }
 
 .table-container {
-  margin-left: calc(100vh - 161px);
-  margin-right: 0px;
+  margin-top: 30px;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
-  width: calc(100% - 561px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .playlist-table {
@@ -37,6 +42,8 @@
   border-radius: 20px;
   border-spacing: 0px;
   max-height: 400px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .header-row {
