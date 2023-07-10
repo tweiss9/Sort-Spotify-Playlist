@@ -1,10 +1,10 @@
 body {
   background: radial-gradient(
     circle,
-    rgba(0, 74, 4, 1) 25%,
-    rgba(6, 97, 0, 1) 50%,
-    rgba(0, 118, 23, 1) 75%,
-    rgba(12, 169, 0, 1) 100%
+    rgba(0, 74, 0, 1) 25%,
+    rgba(0, 97, 0, 1) 50%,
+    rgba(0, 118, 0, 1) 75%,
+    rgba(0, 169, 0, 1) 100%
   );
   color: white;
   font-family: "Circular", sans-serif;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="home-page-body">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,25 +9,44 @@
       href="{{ url_for('static', filename='css/index.css') }}"
     />
   </head>
-  <body>
-    <!-- <a class="spotify-logo-button" href="/login">
-      <img
-        src="{{ url_for('static', filename='images/spotify_name_logo.png') }}"
-        alt
-        class="spotify-name-logo"
-      /> -->
-    <h1>Spotify Playlist Viewer</h1>
-    <p>
-      Sort your Spotify playlists with this website. Click the button below to
-      sign in to get started
-    </p>
-    <a class="spotify-button" href="/login">
-      <img
-        src="{{ url_for('static', filename='images/spotify_logo.png') }}"
-        alt
-        class="spotify-logo"
-      />
-      Sign In with Spotify
-    </a>
+  <body class="home-page-body">
+      <a
+        class="spotify-home-page-button"
+        href="https://open.spotify.com/"
+        title="spotify"
+      >
+        <img
+          src="{{ url_for('static', filename='images/spotify_name_logo.png') }}"
+          alt=""
+          class="spotify-home-link-logo"
+        />
+      </a>
+      <h1 class="main-title">Spotify Playlist Viewer</h1>
+      <p class="main-description">
+        Revamp your Spotify playlists with ease using our website. Our powerful
+        sorting tool lets you organize your music collection based on release
+        date, track name, and artist name. Say goodbye to cluttered playlists
+        and enjoy a seamless listening experience tailored to your preferences.
+        Sign in now to take control of your music library and elevate your
+        Spotify experience.
+      </p>
+      <a class="spotify-sign-in-button" href="/login" title="spotify">
+        <img
+          src="{{ url_for('static', filename='images/spotify_logo.png') }}"
+          alt=""
+          class="spotify-sign-in-logo"
+        />
+        Sign In with Spotify
+      </a>
+      <a
+        href="https://github.com/tweiss9/Sort-Spotify-Playlist"
+        class="github-link-button"
+      >
+        <img
+          src="{{ url_for('static', filename='images/github_logo.png') }}"
+          alt="GitHub Logo"
+          class="github-logo"
+        />
+      </a>
   </body>
 </html>
