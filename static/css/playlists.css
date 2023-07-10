@@ -1,4 +1,4 @@
-body {
+.playlist-html {
   background: radial-gradient(
     circle,
     rgba(0, 74, 0, 1) 25%,
@@ -10,45 +10,45 @@ body {
   font-family: "Circular", sans-serif;
 }
 
-h1 {
+.your-playlist-title {
   font-size: 48px;
   margin: 5px;
-  padding: 5px 0px 0px 0px;
+  padding: 5px 0px 5px 0px;
   text-align: center;
 }
 
-p {
-  font-size: 18px;
+.get-started {
+  font-size: 24px;
   margin: 5px;
-  padding: 5px 0px 10px 0px;
+  padding: 10px 0px 30px 0px;
   text-align: center;
 }
 
 .table-container {
-  margin-left: calc(100vh - 300px);
+  margin-left: calc(100vh - 161px);
   margin-right: 0px;
-  max-height: calc(100vh - 125px);
+  max-height: calc(100vh - 200px);
   overflow-y: scroll;
+  width: calc(100% - 561px);
 }
 
-table {
+.playlist-table {
   border: 3px solid #ddd;
   border-radius: 20px;
   border-spacing: 0px;
   max-height: 400px;
-  width: calc(100% - 35px);
 }
 
-.header-row th {
+.header-row {
   font-size: 20px;
-  padding: 5px 10px 5px 10px;
 }
 
-th {
+.header-cell {
   border-bottom: 1px solid #ddd;
+  padding: 10px 10px 10px 10px;
 }
 
-td {
+.playlist-cell {
   border-right: none;
   font-size: 18px;
   min-height: 100px;
@@ -68,7 +68,7 @@ td {
   cursor: default;
 }
 
-tr:hover {
+.playlist-row:hover {
   background-color: #75ae6f;
   cursor: pointer;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="playlist-html">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,38 +8,40 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/playlists.css') }}"
     />
-   <script src="{{ url_for('static', filename='js/playlists.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/playlists.js') }}"></script>
   </head>
-  <div>
-    <h1>Your Created Playlists</h1>
-    <p>Click on a playlist to get started</p>
-    <div class="table-container">
-      <table>
+  <body class="playlist-body">
+    <div>
+      <h1 class="your-playlist-title">Your Created Playlists</h1>
+      <p class="get-started">Click on a playlist to get started</p>
+      <div class="table-container">
+        <table class="playlist-table">
           <thead>
-              <tr class="header-row">
-                <th>Cover</th>
-                <th>Playlist Name</th>
-                <th>Track Count</th>
-              </tr>
+            <tr class="header-row">
+              <th class="header-cell">Cover</th>
+              <th class="header-cell">Playlist Name</th>
+              <th class="header-cell">Track Count</th>
+            </tr>
           </thead>
-        <tbody>
-          {% for playlist in playlists %}
-          <tr onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
-            <td>
-              <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
-                <img
-                  src="{{ playlist.images[0].url }}"
-                  alt="Playlist Cover"
-                  class="playlist-cover"
-                />
-              </a>
-            </td>
-            <td>{{ playlist.name }}</td>
-            <td>{{ playlist.tracks.total }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          <tbody>
+            {% for playlist in playlists %}
+            <tr class="playlist-row" onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
+              <td class="playlist-cell">
+                <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
+                  <img
+                    src="{{ playlist.images[0].url }}"
+                    alt="Playlist Cover"
+                    class="playlist-cover"
+                  />
+                </a>
+              </td>
+              <td class="playlist-cell">{{ playlist.name }}</td>
+              <td class="playlist-cell">{{ playlist.tracks.total }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>
