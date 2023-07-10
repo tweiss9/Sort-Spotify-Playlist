@@ -1,57 +1,68 @@
+body {
+  background: radial-gradient(
+    circle,
+    rgba(0, 74, 4, 1) 25%,
+    rgba(6, 97, 0, 1) 50%,
+    rgba(0, 118, 23, 1) 75%,
+    rgba(12, 169, 0, 1) 100%
+  );
+  color: white;
+  font-family: "Circular", sans-serif;
+}
+
 h1 {
-  text-align: center;
   font-size: 80px;
   margin: auto;
   padding: 5px;
-  font-family: "Circular", sans-serif;
+  text-align: center;
 }
 
 p {
-  text-align: center;
   font-size: 30px;
-  font-family: "Circular", sans-serif;
   margin: auto;
   padding: 10px 0px 40px 0px;
-}
-
-body {
-  background: radial-gradient(circle, rgba(0,74,4,1) 25%, rgba(6,97,0,1) 50%, rgba(0,118,23,1) 75%, rgba(12,169,0,1) 100%);  color : white;
+  text-align: center;
 }
 
 .table-container {
-  max-height: calc(100vh - 210px); /* Adjust the height as needed */
-  overflow-y: scroll;
   margin-left: 70px;
+  max-height: calc(100vh - 210px);
+  overflow-y: scroll;
 }
 
 table {
-  width: calc(100% - 25px);
-  border-radius: 20px;
   border: 3px solid #ddd;
-  max-height: 400px;
-  font-family: "Circular", sans-serif;
+  border-radius: 20px;
   border-spacing: 0px;
+  max-height: 400px;
+  width: calc(100% - 25px);
 }
 
-.header-row th {
-  padding: 8px 2px 8px 75px;
-  font-size: 40px;
+td {
+  border-right: none;
+  font-size: 30px;
+  min-height: 100px;
+  overflow: auto;
+  padding: 20px 0px 8px 75px;
+  text-align: center;
 }
 
 th {
   border-bottom: 1px solid #ddd;
 }
 
-td {
-  padding: 20px 0px 8px 75px;
-  text-align: center;
-  border-right: none;
-  overflow: auto;
-  font-size: 30px;
-  min-height: 100px;
+.header-row th {
+  font-size: 40px;
+  padding: 8px 2px 8px 75px;
 }
 
-.header-row:hover{
+.playlist-cover {
+  height: 80px;
+  object-fit: cover;
+  width: 80px;
+}
+
+.header-row:hover {
   background-color: transparent;
   cursor: default;
 }
@@ -59,11 +70,4 @@ td {
 tr:hover {
   background-color: #75ae6f;
   cursor: pointer;
-}
-
-.playlist-cover,
-.album-cover {
-  width: 80px; 
-  height: 80px;
-  object-fit: cover;
 }
