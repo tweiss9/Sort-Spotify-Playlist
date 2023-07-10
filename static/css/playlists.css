@@ -11,22 +11,23 @@ body {
 }
 
 h1 {
-  font-size: 80px;
-  margin: auto;
-  padding: 5px;
+  font-size: 48px;
+  margin: 5px;
+  padding: 5px 0px 0px 0px;
   text-align: center;
 }
 
 p {
-  font-size: 30px;
-  margin: auto;
-  padding: 10px 0px 40px 0px;
+  font-size: 18px;
+  margin: 5px;
+  padding: 5px 0px 10px 0px;
   text-align: center;
 }
 
 .table-container {
-  margin-left: 70px;
-  max-height: calc(100vh - 210px);
+  margin-left: calc(100vh - 300px);
+  margin-right: 0px;
+  max-height: calc(100vh - 125px);
   overflow-y: scroll;
 }
 
@@ -35,31 +36,31 @@ table {
   border-radius: 20px;
   border-spacing: 0px;
   max-height: 400px;
-  width: calc(100% - 25px);
+  width: calc(100% - 35px);
 }
 
-td {
-  border-right: none;
-  font-size: 30px;
-  min-height: 100px;
-  overflow: auto;
-  padding: 20px 0px 8px 75px;
-  text-align: center;
+.header-row th {
+  font-size: 20px;
+  padding: 5px 10px 5px 10px;
 }
 
 th {
   border-bottom: 1px solid #ddd;
 }
 
-.header-row th {
-  font-size: 40px;
-  padding: 8px 2px 8px 75px;
+td {
+  border-right: none;
+  font-size: 18px;
+  min-height: 100px;
+  overflow: auto;
+  text-align: center;
+  padding-top: 8px;
 }
 
 .playlist-cover {
-  height: 80px;
+  height: 60px;
   object-fit: cover;
-  width: 80px;
+  width: 60px;
 }
 
 .header-row:hover {
