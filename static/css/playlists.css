@@ -2,6 +2,7 @@ h1 {
   text-align: center;
   font-size: 80px;
   margin: auto;
+  padding: 5px;
   font-family: "Circular", sans-serif;
 }
 
@@ -10,35 +11,49 @@ p {
   font-size: 30px;
   font-family: "Circular", sans-serif;
   margin: auto;
-  padding: 5px 0px 10px 0px;
+  padding: 10px 0px 40px 0px;
 }
 
 body {
   background: radial-gradient(circle, rgba(0,74,4,1) 25%, rgba(6,97,0,1) 50%, rgba(0,118,23,1) 75%, rgba(12,169,0,1) 100%);  color : white;
 }
 
-table {
-  width: calc(100% - 100px);
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  max-height: 400px;
-  margin: auto;
-  font-family: "Circular", sans-serif;
-  font-size: x-large;
-  border-collapse: separate;
-  border-spacing: 0;
+.table-container {
+  max-height: calc(100vh - 210px); /* Adjust the height as needed */
+  overflow-y: scroll;
+  margin-left: 70px;
 }
 
-th{
-  padding: 8px 3px 8px 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-  font-weight: bold;
+table {
+  width: calc(100% - 25px);
+  border-radius: 20px;
+  border: 3px solid #ddd;
+  max-height: 400px;
+  font-family: "Circular", sans-serif;
+  border-spacing: 0px;
 }
+
+.header-row th {
+  padding: 8px 2px 8px 75px;
+  font-size: 40px;
+}
+
+th {
+  border-bottom: 1px solid #ddd;
+}
+
 td {
-  padding: 8px 3px 8px 5px;
+  padding: 20px 0px 8px 75px;
   text-align: center;
   border-right: none;
+  overflow: auto;
+  font-size: 30px;
+  min-height: 100px;
+}
+
+.header-row:hover{
+  background-color: transparent;
+  cursor: default;
 }
 
 tr:hover {

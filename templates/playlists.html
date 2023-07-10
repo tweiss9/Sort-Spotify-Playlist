@@ -10,34 +10,36 @@
     />
    <script src="{{ url_for('static', filename='js/playlists.js') }}"></script>
   </head>
-  <body>
+  <div>
     <h1>Your Created Playlists</h1>
     <p>Click on a playlist to get started</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Cover</th>
-          <th>Playlist Name</th>
-          <th>Track Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for playlist in playlists %}
-        <tr onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
-          <td>
-            <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
-              <img
-                src="{{ playlist.images[0].url }}"
-                alt="Playlist Cover"
-                class="playlist-cover"
-              />
-            </a>
-          </td>
-          <td>{{ playlist.name }}</td>
-          <td>{{ playlist.tracks.total }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table>
+          <thead>
+              <tr class="header-row">
+                <th>Cover</th>
+                <th>Playlist Name</th>
+                <th>Track Count</th>
+              </tr>
+          </thead>
+        <tbody>
+          {% for playlist in playlists %}
+          <tr onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
+            <td>
+              <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
+                <img
+                  src="{{ playlist.images[0].url }}"
+                  alt="Playlist Cover"
+                  class="playlist-cover"
+                />
+              </a>
+            </td>
+            <td>{{ playlist.name }}</td>
+            <td>{{ playlist.tracks.total }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
