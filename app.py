@@ -1,16 +1,31 @@
-from flask_caching import Cache
 from flask_compress import Compress
 from flask import Flask, Response, make_response, render_template, redirect, request, session
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy.exceptions import SpotifyException
 from python.config import sp, client_id, client_secret, redirect_uri, scope, cache
-from python.caching import init_cache, fetch_and_cache_playlists, generate_etag, generate_last_modified
+from python.caching import fetch_and_cache_playlists, generate_etag, generate_last_modified
+import configparser
+# from waitress import serve
 import os
+import cProfile
+import pstats
 
+# profiler = cProfile.Profile()
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("PROJECT_SPOTIFY_FLASK_SECRET_KEY")
-init_cache(app)
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Check if the cache has been initialized
+cache_initialized = config.getboolean('App', 'cache_initialized')
+
+if not cache_initialized:
+    cache.init_app(app)
+    config.set('App', 'cache_initialized', 'True')
+    with open('config.ini', 'w') as config_file:
+        config.write(config_file)
 
 user_id = ""
 sp_oauth = SpotifyOAuth(
@@ -23,7 +38,7 @@ sp_oauth = SpotifyOAuth(
 
 @app.before_request
 def initialize_cache():
-    if session.get("token_info"):
+    if session.get("token_info") and session["token_info"]["access_token"]:
         if not cache.get("playlists"):
             fetch_and_cache_playlists()
 
@@ -125,12 +140,6 @@ def playlist_detail(playlist_id):
     return render_template("error.html")  # Fallback error page
 
 
-@app.route("/playlist/<playlist_id>")
-def get_playlist_id():
-    playlist_id = session.get("playlist_id")
-    return playlist_id
-
-
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
     python_file = request.json["python_file"]
@@ -151,5 +160,12 @@ def execute_python():
 
 
 if __name__ == "__main__":
+    # profiler.enable()
     app.run(debug=True)
-    Compress(app)
+    # Compress(app)
+    # profiler.disable()
+    
+    # with open("profiling_results.txt", "w") as f:
+    #     profiler_stats = pstats.Stats(profiler, stream=f)
+    #     profiler_stats.sort_stats(pstats.SortKey.TIME)
+    #     profiler_stats.print_stats()

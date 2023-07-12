@@ -1,5 +1,5 @@
 from requests import request
-from app import get_playlist_id
+from python.get_playlist_id import get_playlist_id
 from python.config import sp
 
 

@@ -2,8 +2,6 @@ from datetime import datetime
 import hashlib
 from python.config import sp, cache
 
-def init_cache(app):
-    cache.init_app(app)
 
 def fetch_and_cache_playlists():
     user_id = sp.me()["id"]
