@@ -13,7 +13,6 @@
     rgba(12, 169, 0, 1) 100%
   );
   color: white;
-  overflow: hidden;
 }
 
 .spotify-home-page-button {
@@ -41,6 +40,7 @@
 .main-title {
   font-size: 72px;
   margin: 120px 0px 50px 0px;
+  text-align: center;
 }
 
 .main-description {
@@ -76,8 +76,8 @@
   width: 80px;
   height: 80px;
   vertical-align: middle;
-  position: fixed;
-  bottom: 20px;
+  position: relative;
+  /* bottom: 20px; */
 }
 
 .github-link-button:hover {

@@ -1,20 +1,109 @@
-table {
-  width: 100%;
-  border-collapse: collapse;
+.playlist-detail-html-page {
+  background: radial-gradient(
+    circle,
+    rgba(0, 74, 0, 1) 25%,
+    rgba(0, 97, 0, 1) 50%,
+    rgba(0, 118, 0, 1) 75%,
+    rgba(0, 169, 0, 1) 100%
+  );
+  color: white;
+  font-family: "Circular", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-th,
-td {
+.playlist-cover-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.playlist-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.playlist-detail-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 20px auto 50px;
+}
+
+.playlist-detail-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  margin-left: 20px;
+}
+
+.playlist-detail-table {
+  border: 3px solid #ddd;
+  border-radius: 20px;
+  border-spacing: 0px;
+  max-height: 400px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.playlist-detail-name-title {
+  text-align: center;
+  font-size: 40px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+
+.playlist-detail-notice {
+  text-align: center;
+  font-size: 24px;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+
+.playlist-detail-header,
+.playlist-detail-data {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-th {
-  background-color: #f2f2f2;
+.playlist-cover {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
-.playlist-cover,
+.sort-by,
+.create-update {
+  margin: 5px 0 5px 0;
+}
+
+.dropdown {
+  font-size: 16px;
+}
+
+.organize-button {
+  margin: 10px 0px 20px 0px;
+  font-size: 30px;
+  background-color: transparent;
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
+  cursor: pointer;
+  text-align: left;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 469px;
+  height: 50px;
+}
+
 .album-cover {
   width: 50px;
   height: 50px;
@@ -22,6 +111,10 @@ th {
 }
 
 .progress {
+  font-size: 32px;
   display: none;
-  /* Styles for the progress indicator */
+}
+
+.organize-button:hover {
+  background-color: #1ed760;
 }

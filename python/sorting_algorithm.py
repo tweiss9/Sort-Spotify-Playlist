@@ -1,5 +1,5 @@
 from requests import request
-from python.get_playlist_id import get_playlist_id
+from app import get_playlist_id
 from python.config import sp
 
 
@@ -31,20 +31,23 @@ def sorting_algorithm():
     if sorting_type == "release_date":
         sorted_tracks = sorted(playlist_tracks, key=lambda x: (
             x["track"]["album"]["release_date"]), reverse=is_reverse)
+        sorting_type_title = "Release Date"
     elif sorting_type == "track_name":
         sorted_tracks = sorted(playlist_tracks, key=lambda x: (
             x["track"]["name"].lower()), reverse=is_reverse)
+        sorting_type_title = "Track Name"
     elif sorting_type == "artist_name":
         sorted_tracks = sorted(playlist_tracks, key=lambda x: (
             x["track"]["artists"][0]["name"].lower()), reverse=is_reverse)
+        sorting_type_title = "Artist Name"
     else:
         print("Invalid sorting type")
         return
 
     # Create a new playlist for the sorted tracks
     if is_new == True:
-        new_playlist_name = f"Sorted {playlist_name} by {sorting_type}"
-        new_playlist_description = f"Sorted playlist of {playlist_name} by {sorting_type}"
+        new_playlist_name = f"Sorted {playlist_name} by {sorting_type_title}"
+        new_playlist_description = f"Sorted playlist of {playlist_name} by {sorting_type_title}"
         new_playlist = sp.user_playlist_create(user=sp.me(
         )["id"], name=new_playlist_name, public=False, description=new_playlist_description)
         new_playlist_id = new_playlist["id"]

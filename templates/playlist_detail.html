@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="playlist-detail-html-page">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,55 +11,74 @@
     <script src="{{ url_for('static', filename='js/playlist_detail.js') }}"></script>
   </head>
   <body>
-    <h1>
-      <img
-        src="{{ playlist_cover }}"
-        alt="Playlist Cover"
-        class="playlist-cover"
-      />
-      {{ playlist_name }}
-    </h1>
-    <label for="dropdown1">Sort By:</label>
-    <select id="dropdown1" class="dropdown">
-      <option value="releaseDateNewOld">Release Date (New-Old)</option>
-      <option value="releaseDateOldNew">Release Date (Old-New)</option>
-      <option value="trackNameAZ">Track Name (A-Z)</option>
-      <option value="trackNameZA">Track Name (Z-A)</option>
-      <option value="artistNameAZ">Artist Name(A-Z)</option>
-      <option value="artistNameZA">Artist Name(Z-A)</option>
-    </select>
-    <label for="dropdown2">Create or Update:</label>
-    <select id="dropdown2" class="dropdown">
-      <option value="create" selected>Create a New Playlist</option>
-      <option value="update">Update the Existing Playlist</option>
-    </select>
-    <button class="organize-button" onclick="organize()">Organize</button>
-    <div id="progress" class="progress">Progress...</div>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Album Cover</th>
-          <th>Song Name</th>
-          <th>Album</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for song in songs %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>
-            <img
-              src="{{ song.album_cover }}"
-              alt="Album Cover"
-              class="album-cover"
-            />
-          </td>
-          <td>{{ song.name }}</td>
-          <td>{{ song.album }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="playlist-container">
+      <div class="playlist-detail-top">
+        <div class="playlist-cover-container">
+          <img
+            src="{{ playlist_cover }}"
+            alt="Playlist Cover"
+            class="playlist-cover"
+          />
+        </div>
+        <div class="playlist-detail-content">
+          <div class="sort-by">
+            <label for="dropdown1">Sort By:</label>
+            <select id="dropdown1" class="dropdown">
+              <option value="releaseDateNewOld">Release Date (New-Old)</option>
+              <option value="releaseDateOldNew">Release Date (Old-New)</option>
+              <option value="trackNameAZ">Track Name (A-Z)</option>
+              <option value="trackNameZA">Track Name (Z-A)</option>
+              <option value="artistNameAZ">Artist Name (A-Z)</option>
+              <option value="artistNameZA">Artist Name (Z-A)</option>
+            </select>
+          </div>
+          <div class="create-update">
+            <label for="dropdown2">Create or Update:</label>
+            <select id="dropdown2" class="dropdown">
+              <option value="create" selected>Create a New Playlist</option>
+              <option value="update">Update the Existing Playlist</option>
+            </select>
+          </div>
+          <button class="organize-button" onclick="organize()">Organize</button>
+          <div id="progress" class="progress">Progress...</div>
+        </div>
+      </div>
+      <table class="playlist-detail-table">
+        <thead>
+          <tr>
+            <th class="playlist-detail-name-title" colspan="4">
+              {{playlist_name}}
+            </th>
+          </tr>
+          <tr>
+            <th class="playlist-detail-notice" colspan="4">
+              Only the First 100 Tracks are Loaded
+            </th>
+          </tr>
+          <tr>
+            <th class="playlist-detail-header">#</th>
+            <th class="playlist-detail-header">Album Cover</th>
+            <th class="playlist-detail-header">Song Name</th>
+            <th class="playlist-detail-header">Album</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for song in songs %}
+          <tr>
+            <td class="playlist-detail-data">{{ loop.index }}</td>
+            <td class="playlist-detail-data">
+              <img
+                src="{{ song.album_cover }}"
+                alt="Album Cover"
+                class="album-cover"
+              />
+            </td>
+            <td class="playlist-detail-data">{{ song.name }}</td>
+            <td class="playlist-detail-data">{{ song.album }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

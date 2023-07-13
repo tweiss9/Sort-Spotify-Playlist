@@ -15,17 +15,7 @@ import pstats
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("PROJECT_SPOTIFY_FLASK_SECRET_KEY")
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-# Check if the cache has been initialized
-cache_initialized = config.getboolean('App', 'cache_initialized')
-
-if not cache_initialized:
-    cache.init_app(app)
-    config.set('App', 'cache_initialized', 'True')
-    with open('config.ini', 'w') as config_file:
-        config.write(config_file)
+cache.init_app(app)
 
 user_id = ""
 sp_oauth = SpotifyOAuth(
@@ -69,37 +59,27 @@ def playlists():
 
     user_id = cache.get("user_id") or ""
 
-    # Fetch the playlists from the Spotify API
     fetched_playlists = sp.current_user_playlists()["items"]
 
-    # Filter the playlists for the current user
     user_playlists = [playlist for playlist in fetched_playlists if (playlist["owner"]["id"] == user_id) and (
         not playlist["collaborative"]) and (playlist["tracks"]["total"] > 0)]
 
-    # Get the cached playlists
     cached_playlists = cache.get("playlists") or []
     cached_user_playlists = cache.get("user_playlists") or []
 
-    # Check if the fetched playlists are different from the cached playlists
     if fetched_playlists != cached_playlists or user_playlists != cached_user_playlists:
-        # Update the cache with the fetched playlists
         cache.set("playlists", fetched_playlists)
         cache.set("user_playlists", user_playlists)
 
-    # Get the Etag and Last-Modified values from the request headers
     etag = request.headers.get("If-None-Match")
     last_modified = request.headers.get("If-Modified-Since")
 
-    # Generate a new Etag and Last-Modified value for the current data
     current_etag = generate_etag(user_playlists)
     current_last_modified = generate_last_modified(user_playlists)
 
-    # Check if the Etag and Last-Modified values match
     if etag == current_etag and last_modified == current_last_modified:
-        # The data has not changed, return a 304 Not Modified response
         return Response(status=304)
 
-    # Update the response headers with the new Etag and Last-Modified values
     response = make_response(render_template(
         "playlists.html", playlists=user_playlists))
     response.set_etag(current_etag)
@@ -133,12 +113,13 @@ def playlist_detail(playlist_id):
     except SpotifyException as e:
         if e.http_status == 404:
             return render_template("playlist_not_found.html")
-        # Handle other SpotifyException here
 
-    # Handle other exceptions or errors here
+    return render_template("error.html")
 
-    return render_template("error.html")  # Fallback error page
-
+@app.route("/playlist/<playlist_id>")
+def get_playlist_id():
+    playlist_id = session.get("playlist_id")
+    return playlist_id
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
@@ -156,7 +137,7 @@ def execute_python():
                  'is_reverse': is_reverse, 'is_new': is_new})
         return "Python file executed successfully."
     except Exception as e:
-        return f"An error occurred: {e}"
+        return render_template("error.html")
 
 
 if __name__ == "__main__":
