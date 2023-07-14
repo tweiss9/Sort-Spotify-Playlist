@@ -1,11 +1,12 @@
 from requests import request
-from app import get_playlist_id
+from app import server_error
 from python.config import sp
+from flask import session
 
 
 def sorting_algorithm():
     print("Hello World!")
-    playlist_id = get_playlist_id()
+    playlist_id = session.get("playlist_id")
     print(playlist_id)
     sorting_type = request.json["sorting_type"]
     print("sorting_type: " + sorting_type)
@@ -17,7 +18,7 @@ def sorting_algorithm():
     # Retrieve the playlist name
     playlist = sp.playlist(playlist_id=playlist_id)
     playlist_name = playlist["name"]
-    
+
     # Retrieve all tracks from the specified playlist
     playlist_tracks = []
     results = sp.playlist_tracks(playlist_id=playlist_id, limit=100)
@@ -41,8 +42,8 @@ def sorting_algorithm():
             x["track"]["artists"][0]["name"].lower()), reverse=is_reverse)
         sorting_type_title = "Artist Name"
     else:
-        print("Invalid sorting type")
-        return
+        error = "Sorting type not supported"
+        return (server_error(error))
 
     # Create a new playlist for the sorted tracks
     if is_new == True:
@@ -56,27 +57,32 @@ def sorting_algorithm():
         batch_size = 100
         for i in range(0, len(sorted_tracks), batch_size):
             batch_uris = [track["track"]["uri"]
-                        for track in sorted_tracks[i:i+batch_size]]
-            sp.playlist_add_items(playlist_id=new_playlist_id, items=batch_uris)
+                          for track in sorted_tracks[i:i+batch_size]]
+            sp.playlist_add_items(
+                playlist_id=new_playlist_id, items=batch_uris)
 
         print("Done Creating!")
     else:
         # Create a temporary playlist for sorted tracks
         temp_playlist_name = "Temp Playlist"
         temp_playlist_description = "Temporary playlist for sorting"
-        temp_playlist = sp.user_playlist_create(user=sp.me()["id"], name=temp_playlist_name, public=False, description=temp_playlist_description)
+        temp_playlist = sp.user_playlist_create(user=sp.me(
+        )["id"], name=temp_playlist_name, public=False, description=temp_playlist_description)
         temp_playlist_id = temp_playlist["id"]
         print("Temporary playlist created")
 
         # Add the sorted tracks to the temporary playlist in batches
         batch_size = 100
         for i in range(0, len(sorted_tracks), batch_size):
-            batch_uris = [track["track"]["uri"] for track in sorted_tracks[i:i+batch_size]]
-            sp.playlist_add_items(playlist_id=temp_playlist_id, items=batch_uris)
+            batch_uris = [track["track"]["uri"]
+                          for track in sorted_tracks[i:i+batch_size]]
+            sp.playlist_add_items(
+                playlist_id=temp_playlist_id, items=batch_uris)
 
         # Retrieve all tracks from the temporary playlist
         temp_playlist_tracks = []
-        results = sp.playlist_tracks(temp_playlist_id, fields="items(track(uri)),next")
+        results = sp.playlist_tracks(
+            temp_playlist_id, fields="items(track(uri)),next")
         temp_playlist_tracks.extend(results["items"])
 
         while results["next"]:
@@ -85,16 +91,21 @@ def sorting_algorithm():
 
         # Remove all tracks from the existing playlist
         for i in range(0, len(playlist_tracks), batch_size):
-            batch_uris = [track["track"]["uri"] for track in playlist_tracks[i:i+batch_size]]
-            sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=batch_uris)
+            batch_uris = [track["track"]["uri"]
+                          for track in playlist_tracks[i:i+batch_size]]
+            sp.playlist_remove_all_occurrences_of_items(
+                playlist_id=playlist_id, items=batch_uris)
 
         # Add the tracks from the temporary playlist to the existing playlist in batches
         for i in range(0, len(temp_playlist_tracks), batch_size):
-            batch_uris = [track["track"]["uri"] for track in temp_playlist_tracks[i:i+batch_size]]
+            batch_uris = [track["track"]["uri"]
+                          for track in temp_playlist_tracks[i:i+batch_size]]
             sp.playlist_add_items(playlist_id=playlist_id, items=batch_uris)
 
         # Unfollow and delete the temporary playlist
-        sp.user_playlist_unfollow(user=sp.me()["id"], playlist_id=temp_playlist_id)
+        sp.user_playlist_unfollow(
+            user=sp.me()["id"], playlist_id=temp_playlist_id)
         print("Done Updating!")
+
 
 sorting_algorithm()

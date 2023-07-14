@@ -1,29 +1,15 @@
 from flask_compress import Compress
 from flask import Flask, Response, make_response, render_template, redirect, request, session
-from spotipy.oauth2 import SpotifyOAuth
 from spotipy.exceptions import SpotifyException
-from python.config import sp, client_id, client_secret, redirect_uri, scope, cache
+from python.config import sp, cache, sp_oauth
 from python.caching import fetch_and_cache_playlists, generate_etag, generate_last_modified
-import configparser
 # from waitress import serve
 import os
-import cProfile
-import pstats
-
-# profiler = cProfile.Profile()
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = os.environ.get("PROJECT_SPOTIFY_FLASK_SECRET_KEY")
 
 cache.init_app(app)
-
-user_id = ""
-sp_oauth = SpotifyOAuth(
-    scope=scope,
-    client_id=client_id,
-    client_secret=client_secret,
-    redirect_uri=redirect_uri,
-)
 
 
 @app.before_request
@@ -112,14 +98,12 @@ def playlist_detail(playlist_id):
 
     except SpotifyException as e:
         if e.http_status == 404:
-            return render_template("playlist_not_found.html")
+            return render_template("playlist_404.html")
+        else:
+            return render_template("spotify_error.html")
+    except Exception:
+        return server_error(Exception)
 
-    return render_template("error.html")
-
-@app.route("/playlist/<playlist_id>")
-def get_playlist_id():
-    playlist_id = session.get("playlist_id")
-    return playlist_id
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
@@ -135,18 +119,27 @@ def execute_python():
             code = compile(f.read(), file_path, 'exec')
             exec(code, globals(), {'sorting_type': sorting_type,
                  'is_reverse': is_reverse, 'is_new': is_new})
-        return "Python file executed successfully."
+            return Response(status=200)
+    except FileNotFoundError as e:
+        return page_not_found(e)
     except Exception as e:
-        return render_template("error.html")
+        return server_error(e)
 
+
+@app.errorhandler(404)
+def page_not_found(error):
+    error_message = str(error)
+    return render_template('404.html', error_message=error_message), 404
+
+@app.errorhandler(500)
+def server_error(error):
+    error_message = str(error)
+    return render_template('500.html', error_message=error_message), 500
+
+@app.route('/500')
+def error_500():
+    return render_template('500.html')
 
 if __name__ == "__main__":
-    # profiler.enable()
     app.run(debug=True)
-    # Compress(app)
-    # profiler.disable()
-    
-    # with open("profiling_results.txt", "w") as f:
-    #     profiler_stats = pstats.Stats(profiler, stream=f)
-    #     profiler_stats.sort_stats(pstats.SortKey.TIME)
-    #     profiler_stats.print_stats()
+    Compress(app)

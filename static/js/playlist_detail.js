@@ -62,7 +62,7 @@ function organize() {
   ) {
     executePythonFile("sorting_algorithm.py", "artist_name", true, false);
   } else {
-    window.location.href = "/error.html";
+    window.location.href = "/500";
   }
 
   var progress = document.getElementById("progress");
@@ -78,7 +78,7 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
       if (xhr.status === 200) {
         showCompleted();
       } else {
-        showErrorMessage();
+        window.location.href = "/500";
       }
     }
   };
@@ -95,12 +95,5 @@ function showCompleted() {
   progress.innerText = "Completed!";
   setTimeout(function () {
     progress.style.display = "none";
-  }, 5000);
-}
-function showErrorMessage() {
-  var progress = document.getElementById("progress");
-  progress.innerText = "Error";
-  setTimeout(function () {
-    progress.style.display = "none";
-  }, 5000);
+  }, 3000);
 }
