@@ -21,23 +21,28 @@
           class="spotify-home-link-logo"
         />
       </a>
-      <h1 class="main-title">Spotify Playlist Viewer</h1>
-      <p class="main-description">
-        Revamp your Spotify playlists with ease using our website. Our powerful
-        sorting tool lets you organize your music collection based on release
-        date, track name, and artist name. Say goodbye to cluttered playlists
-        and enjoy a seamless listening experience tailored to your preferences.
-        Sign in now to take control of your music library and elevate your
-        Spotify experience.
-      </p>
-      <a class="spotify-sign-in-button" href="/login" title="spotify">
-        <img
-          src="{{ url_for('static', filename='images/spotify_logo.png') }}"
-          alt=""
-          class="spotify-sign-in-logo"
-        />
-        Sign In with Spotify
-      </a>
+      <div class="main-container"></div>
+        <h1 class="main-title">Spotify Playlist Viewer</h1>
+        <h2 class="main-subtitle">
+          Sort your Spotify playlists with ease using this website.
+        </h2>
+        <p class="main-description">
+          Revamp your Spotify playlists with ease using this website. Our powerful
+          sorting tool lets you organize your music collection based on release
+          date, track name, and artist name. Say goodbye to cluttered playlists
+          and enjoy a seamless listening experience tailored to your preferences.
+          Sign in now to take control of your music library and elevate your
+          Spotify experience.
+        </p>
+        <a class="spotify-sign-in-button" href="/login" title="spotify">
+          <img
+            src="{{ url_for('static', filename='images/spotify_logo.png') }}"
+            alt=""
+            class="spotify-sign-in-logo"
+          />
+          Sign In with Spotify
+        </a>
+     </div>
       <a
         href="https://github.com/tweiss9/Sort-Spotify-Playlist"
         class="github-link-button"

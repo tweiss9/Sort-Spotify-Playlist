@@ -46,7 +46,7 @@
 .main-description {
   font-size: 32px;
   text-align: center;
-  margin: 0px 120px 30px 120px;
+  margin: 0px auto 30px auto;
 }
 
 .spotify-sign-in-button {
@@ -76,8 +76,8 @@
   width: 80px;
   height: 80px;
   vertical-align: middle;
-  position: relative;
-  /* bottom: 20px; */
+  position: fixed;
+  bottom: 20px;
 }
 
 .github-link-button:hover {
