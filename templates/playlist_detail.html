@@ -47,12 +47,12 @@
       <table class="playlist-detail-table">
         <thead>
           <tr>
-            <th class="playlist-detail-name-title" colspan="4">
+            <th class="playlist-detail-name-title" colspan="5">
               {{playlist_name}}
             </th>
           </tr>
           <tr>
-            <th class="playlist-detail-notice" colspan="4">
+            <th class="playlist-detail-notice" colspan="5">
               Only the First 100 Tracks are Loaded
             </th>
           </tr>
@@ -60,7 +60,8 @@
             <th class="playlist-detail-header">#</th>
             <th class="playlist-detail-header">Album Cover</th>
             <th class="playlist-detail-header">Song Name</th>
-            <th class="playlist-detail-header">Album</th>
+            <th class="playlist-detail-header">Artist</th>
+            <th class="playlist-detail-header">Release Date</th>
           </tr>
         </thead>
         <tbody>
@@ -75,7 +76,8 @@
               />
             </td>
             <td class="playlist-detail-data">{{ song.name }}</td>
-            <td class="playlist-detail-data">{{ song.album }}</td>
+            <td class="playlist-detail-data">{{ song.artist }}</td>
+            <td class="playlist-detail-data">{{ song.release_date }}</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_compress import Compress
 from flask import Flask, Response, make_response, render_template, redirect, request, session
 from spotipy.exceptions import SpotifyException
@@ -45,7 +46,17 @@ def playlists():
 
     user_id = cache.get("user_id") or ""
 
-    fetched_playlists = sp.current_user_playlists()["items"]
+    fetched_playlists = []
+    offset = 0
+    limit = 50
+
+    while True:
+        response = sp.current_user_playlists(offset=offset, limit=limit)
+        fetched_playlists.extend(response["items"])
+        total_playlists = response["total"]
+        offset += limit
+        if offset >= total_playlists:
+            break
 
     user_playlists = [playlist for playlist in fetched_playlists if (playlist["owner"]["id"] == user_id) and (
         not playlist["collaborative"]) and (playlist["tracks"]["total"] > 0)]
@@ -81,10 +92,14 @@ def playlist_detail(playlist_id):
         playlist = sp.playlist(playlist_id)
         songs = playlist["tracks"]["items"]
         formatted_songs = []
+
         for song in songs:
+            release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m-%d").strftime("%m/%d/%Y")
+
             song_info = {
                 "name": song["track"]["name"],
-                "album": song["track"]["album"]["name"],
+                "artist": song["track"]["artists"][0]["name"],
+                "release_date": release_date,
                 "album_cover": song["track"]["album"]["images"][0]["url"],
             }
             formatted_songs.append(song_info)
@@ -131,14 +146,17 @@ def page_not_found(error):
     error_message = str(error)
     return render_template('404.html', error_message=error_message), 404
 
+
 @app.errorhandler(500)
 def server_error(error):
     error_message = str(error)
     return render_template('500.html', error_message=error_message), 500
 
+
 @app.route('/500')
 def error_500():
     return render_template('500.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
