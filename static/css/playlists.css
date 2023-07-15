@@ -42,8 +42,8 @@
   border-radius: 20px;
   border-spacing: 0px;
   max-height: 400px;
-  width: 80%;
-  margin: 0 auto;
+  width: 110%;
+  margin-left: 25px;
 }
 
 .header-row {
@@ -62,6 +62,10 @@
   overflow: auto;
   text-align: center;
   padding-top: 8px;
+}
+
+.playlist-row {
+  width: auto;
 }
 
 .playlist-cover {
