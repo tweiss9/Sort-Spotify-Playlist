@@ -24,12 +24,12 @@
 .get-started {
   font-size: 24px;
   margin: 5px;
-  padding: 10px 0px 30px 0px;
+  padding: 10px 0px 10px 0px;
   text-align: center;
 }
 
 .table-container {
-  margin-top: 30px;
+  margin: 30px auto 0px auto;
   max-height: calc(100vh - 200px);
   overflow-y: scroll;
   width: 100%;
@@ -42,7 +42,6 @@
   border-radius: 20px;
   border-spacing: 0px;
   max-height: 400px;
-  width: 110%;
   margin-left: 25px;
 }
 
@@ -52,7 +51,7 @@
 
 .header-cell {
   border-bottom: 1px solid #ddd;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
 }
 
 .playlist-cell {
@@ -83,4 +82,17 @@
 .playlist-row:hover {
   background-color: #75ae6f;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #004a00;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 12px;
+  height: 8px;
+  background-color: #00a800;
+  border-radius: 5px;
 }

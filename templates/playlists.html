@@ -8,6 +8,11 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/playlists.css') }}"
     />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/playlist_logo.png') }}"
+      type="image/png"
+    />
     <script src="{{ url_for('static', filename='js/playlists.js') }}"></script>
   </head>
   <body class="playlist-body">
@@ -25,9 +30,14 @@
           </thead>
           <tbody>
             {% for playlist in playlists %}
-            <tr class="playlist-row" onclick="redirectToPlaylistDetail('{{ playlist.id }}');">
+            <tr
+              class="playlist-row"
+              onclick="redirectToPlaylistDetail('{{ playlist.id }}');"
+            >
               <td class="playlist-cell">
-                <a href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}">
+                <a
+                  href="{{ url_for('playlist_detail', playlist_id=playlist.id) }}"
+                >
                   <img
                     src="{{ playlist.images[0].url }}"
                     alt="Playlist Cover"

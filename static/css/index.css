@@ -52,7 +52,7 @@
 .main-description {
   font-size: 32px;
   text-align: center;
-  margin: 0px auto 30px auto;
+  margin: 0px auto 50px auto;
   width: 70%;
 }
 
@@ -60,7 +60,7 @@
   display: inline-block;
   background-color: #1db954;
   color: white;
-  padding: 20px 40px;
+  padding: 30px 40px;
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
@@ -83,8 +83,9 @@
   width: 80px;
   height: 80px;
   vertical-align: middle;
-  position: fixed;
-  bottom: 20px;
+  position: absolute;
+  top: 5px;
+  left: 20px;
 }
 
 .github-link-button:hover {
