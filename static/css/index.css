@@ -38,21 +38,21 @@
 }
 
 .main-title {
-  font-size: 72px;
-  margin: 60px 0px 30px 0px;
+  font-size: 60px;
+  margin: 20px 0px 60px 0px;
   text-align: center;
 }
 
 .main-subtitle {
-  font-size: 48px;
-  margin: 0px 0px 50px 0px;
+  font-size: 40px;
+  margin: 0px 0px 40px 0px;
   text-align: center;
 }
 
 .main-description {
-  font-size: 32px;
+  font-size: 30px;
   text-align: center;
-  margin: 0px auto 50px auto;
+  margin: 0px auto 45px auto;
   width: 70%;
 }
 
