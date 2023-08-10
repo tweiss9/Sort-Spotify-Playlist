@@ -63,7 +63,6 @@
           </tr>
           <tr>
             <th class="playlist-detail-header">#</th>
-            <th class="playlist-detail-header">Album Cover</th>
             <th class="playlist-detail-header">Song Name</th>
             <th class="playlist-detail-header">Artist</th>
             <th class="playlist-detail-header">Release Date</th>
@@ -73,13 +72,6 @@
           {% for song in songs %}
           <tr>
             <td class="playlist-detail-data">{{ loop.index }}</td>
-            <td class="playlist-detail-data">
-              <img
-                src="{{ song.album_cover }}"
-                alt="Album Cover"
-                class="album-cover"
-              />
-            </td>
             <td class="playlist-detail-data">{{ song.name }}</td>
             <td class="playlist-detail-data">{{ song.artist }}</td>
             <td class="playlist-detail-data">{{ song.release_date }}</td>
