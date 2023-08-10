@@ -5,15 +5,10 @@ from flask import session
 
 
 def sorting_algorithm():
-    print("Hello World!")
     playlist_id = session.get("playlist_id")
-    print(playlist_id)
     sorting_type = request.json["sorting_type"]
-    print("sorting_type: " + sorting_type)
     is_reverse = request.json["is_reverse"]
-    print("is_reverse: " + str(is_reverse))
     is_new = request.json["is_new"]
-    print("is_new: " + str(is_new))
 
     # Retrieve the playlist name
     playlist = sp.playlist(playlist_id=playlist_id)
@@ -61,7 +56,6 @@ def sorting_algorithm():
             sp.playlist_add_items(
                 playlist_id=new_playlist_id, items=batch_uris)
 
-        print("Done Creating!")
     else:
         # Create a temporary playlist for sorted tracks
         temp_playlist_name = "Temp Playlist"
@@ -69,7 +63,6 @@ def sorting_algorithm():
         temp_playlist = sp.user_playlist_create(user=sp.me(
         )["id"], name=temp_playlist_name, public=False, description=temp_playlist_description)
         temp_playlist_id = temp_playlist["id"]
-        print("Temporary playlist created")
 
         # Add the sorted tracks to the temporary playlist in batches
         batch_size = 100
@@ -105,7 +98,6 @@ def sorting_algorithm():
         # Unfollow and delete the temporary playlist
         sp.user_playlist_unfollow(
             user=sp.me()["id"], playlist_id=temp_playlist_id)
-        print("Done Updating!")
 
 
 sorting_algorithm()

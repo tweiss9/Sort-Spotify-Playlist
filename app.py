@@ -128,7 +128,6 @@ def execute_python():
     is_new = request.json["is_new"]
 
     try:
-        print(f"Executing {python_file} with is_reverse={is_reverse}...")
         file_path = f"python/{python_file}"
         with open(file_path) as f:
             code = compile(f.read(), file_path, 'exec')
