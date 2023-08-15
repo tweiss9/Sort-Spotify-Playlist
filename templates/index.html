@@ -3,61 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Sort your Spotify playlist by release date, album name, and artist name" />
+    <meta
+      name="description"
+      content="Sort your Spotify playlist by release date, album name, and artist name"
+    />
     <title>Spotify Playlist Viewer</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css') }}"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Signika:wght@500&display=swap" rel="stylesheet">
-    <link rel="icon" href="{{ url_for('static', filename='images/playlist_logo.png') }}" type="image/png">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/playlist_logo.png') }}"
+      type="image/png"
+    />
   </head>
   <body class="home-page-body">
-      <a
-        class="spotify-home-page-button"
-        href="https://open.spotify.com/"
-        title="spotify"
-      >
+    <a
+      class="spotify-home-page-button"
+      href="https://open.spotify.com/"
+      title="spotify"
+    >
+      <img
+        src="{{ url_for('static', filename='images/spotify_name_logo.png') }}"
+        alt=""
+        class="spotify-home-link-logo"
+      />
+    </a>
+    <div class="main-container">
+      <h1 class="main-title">Spotify Playlist Viewer</h1>
+      <h2 class="main-subtitle">
+        Sort your Spotify playlists with ease using this website.
+      </h2>
+      <p class="main-description">
+        This powerful sorting tool helps you organize your music collection based
+        on track name, artist name and even release date. Say goodbye to
+        cluttered playlists and enjoy a seamless listening experience. Sign in to
+        elevate your Spotify experience.
+      </p>
+      <a class="spotify-sign-in-button" href="/login" title="spotify">
         <img
-          src="{{ url_for('static', filename='images/spotify_name_logo.png') }}"
+          src="{{ url_for('static', filename='images/spotify_logo.png') }}"
           alt=""
-          class="spotify-home-link-logo"
+          class="spotify-sign-in-logo"
         />
+        Sign In with Spotify
       </a>
-      <div class="main-container"></div>
-        <h1 class="main-title">Spotify Playlist Viewer</h1>
-        <h2 class="main-subtitle">
-          Sort your Spotify playlists with ease using this website.
-        </h2>
-        <p class="main-description">
-          Revamp your Spotify playlists with ease using this website. This powerful
-          sorting tool lets you organize your music collection based on track name, 
-          artist name and even release date. Say goodbye to cluttered playlists
-          and enjoy a seamless listening experience tailored to your preferences.
-          Sign in now to take control of your music library and elevate your
-          Spotify experience.
-        </p>
-        <a class="spotify-sign-in-button" href="/login" title="spotify">
-          <img
-            src="{{ url_for('static', filename='images/spotify_logo.png') }}"
-            alt=""
-            class="spotify-sign-in-logo"
-          />
-          Sign In with Spotify
-        </a>
-     </div>
-      <a
-        href="https://github.com/tweiss9/Sort-Spotify-Playlist"
-        class="github-link-button"
-      >
-        <img
-          src="{{ url_for('static', filename='images/github_logo.png') }}"
-          alt="GitHub Logo"
-          class="github-logo"
-        />
-      </a>
-      <div class="footer">
-        <p>&copy; 2023 Tyler Weiss. All rights reserved.</p>
+    </div>
+    <a
+      href="https://github.com/tweiss9/Sort-Spotify-Playlist"
+      class="github-link-button"
+    >
+      <img
+        src="{{ url_for('static', filename='images/github_logo.png') }}"
+        alt="GitHub Logo"
+        class="github-logo"
+      />
+    </a>
+    <div class="footer">
+      <p>&copy; 2023 Tyler Weiss. All rights reserved.</p>
     </div>
   </body>
 </html>
