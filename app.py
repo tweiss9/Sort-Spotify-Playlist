@@ -81,6 +81,7 @@ def playlists():
         "playlists.html", playlists=user_playlists))
     response.set_etag(current_etag)
     response.headers["Last-Modified"] = current_last_modified
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return response
 
 
@@ -94,31 +95,33 @@ def playlist_detail(playlist_id):
         formatted_songs = []
 
         for song in songs:
-            release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m-%d").strftime("%m/%d/%Y")
-
+            try:
+                release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m-%d").strftime("%m/%d/%Y")
+            except ValueError:
+                release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y").strftime("%Y")
             song_info = {
                 "name": song["track"]["name"],
                 "artist": song["track"]["artists"][0]["name"],
                 "release_date": release_date,
                 "album_cover": song["track"]["album"]["images"][0]["url"],
             }
-            formatted_songs.append(song_info)
 
+            formatted_songs.append(song_info)
+            
         return render_template(
             "playlist_detail.html",
             playlist_name=playlist["name"],
             songs=formatted_songs,
             playlist_cover=playlist["images"][0]["url"],
         )
-
     except SpotifyException as e:
         if e.http_status == 404:
             return render_template("playlist_404.html")
         else:
             return render_template("spotify_error.html")
-    except Exception:
+    except Exception as e:
+        print("Error:", e)
         return server_error(Exception)
-
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
