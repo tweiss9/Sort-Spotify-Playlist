@@ -70,7 +70,7 @@
         </thead>
         <tbody>
           {% for song in songs %}
-          <tr>
+          <tr {% if loop.last %}class="last-song"{% endif %}>
             <td class="playlist-detail-data">{{ loop.index }}</td>
             <td class="playlist-detail-data">{{ song.name }}</td>
             <td class="playlist-detail-data">{{ song.artist }}</td>

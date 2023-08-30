@@ -75,6 +75,10 @@
   border-bottom: 1px solid #ddd;
 }
 
+.last-song .playlist-detail-data {
+  border-bottom: none;
+}
+
 .playlist-cover {
   width: 200px;
   height: 200px;
