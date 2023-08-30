@@ -98,7 +98,10 @@ def playlist_detail(playlist_id):
             try:
                 release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m-%d").strftime("%m/%d/%Y")
             except ValueError:
-                release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y").strftime("%Y")
+                try:
+                    release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m").strftime("%Y/%m")
+                except ValueError:
+                    release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y").strftime("%Y")
             song_info = {
                 "name": song["track"]["name"],
                 "artist": song["track"]["artists"][0]["name"],
