@@ -96,26 +96,44 @@ def playlist_detail(playlist_id):
 
         for song in songs:
             try:
-                release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m-%d").strftime("%m/%d/%Y")
+                release_date_str = song["track"]["album"]["release_date"]
+                if release_date_str.startswith("0"):
+                    release_date = None
+                else:
+                    release_date = datetime.strptime(release_date_str, "%Y-%m-%d").strftime("%m/%d/%Y")
             except ValueError:
                 try:
-                    release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y-%m").strftime("%m/%Y")
+                    release_date_str = song["track"]["album"]["release_date"]
+                    if release_date_str.startswith("0"):
+                        release_date = None
+                    else:
+                        release_date = datetime.strptime(release_date_str, "%Y-%m").strftime("%m/%Y")
                 except ValueError:
-                    release_date = datetime.strptime(song["track"]["album"]["release_date"], "%Y").strftime("%Y")
+                    release_date_str = song["track"]["album"]["release_date"]
+                    if release_date_str.startswith("0"):
+                        release_date = None
+                    else:
+                        release_date = datetime.strptime(release_date_str, "%Y").strftime("%Y")
             song_info = {
                 "name": song["track"]["name"],
                 "artist": song["track"]["artists"][0]["name"],
                 "release_date": release_date,
+                "album_cover": song["track"]["album"]["images"][0]["url"] if song["track"]["album"]["images"] else None,
             }
 
             formatted_songs.append(song_info)
-            
-        return render_template(
+
+        response = make_response(render_template(
             "playlist_detail.html",
             playlist_name=playlist["name"],
             songs=formatted_songs,
-            playlist_cover=playlist["images"][0]["url"],
-        )
+            playlist_cover=playlist["images"][0]["url"] if playlist["images"] else None,
+        ))
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+
+        return response
     except SpotifyException as e:
         if e.http_status == 404:
             return render_template("playlist_404.html")
@@ -124,7 +142,7 @@ def playlist_detail(playlist_id):
     except Exception as e:
         print("Error:", e)
         return server_error(Exception)
-
+    
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
     python_file = request.json["python_file"]
