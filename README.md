@@ -17,19 +17,20 @@ To use this application, you need to have a Spotify account and create a Spotify
      ```
      pip install -r requirements.txt
      ```
+  5. Generate a Spotify project through the <a href="https://developer.spotify.com/" target="_blank"> Spotify for Developers console </a> and a <a href="https://flask.palletsprojects.com/en/2.3.x/config/" target="_blank">Flask Secret Key
    
-  5. Create a .env file and fill in the following environment variables with your Spotify application credentials and your Flask secret key:
+  6. Create a .env file and fill in the following environment variables with your Spotify application credentials and your Flask secret key:
      ```
      SPOTIFY_CLIENT_ID=<YOUR_CLIENT_ID>
      SPOTIFY_CLIENT_SECERET=<YOUR_CLIENT_SECRET>
      FLASK_SECRET_KEY=<YOUR_SECRET_KEY>
      ```
 
-  6. Run the following command to start the web application:
+  7. Run the following command to start the web application:
       ```
       python app.py
       ```
-  7. Open your web browser and go to http://localhost:5000 to access the application.
+  8. Open your web browser and go to http://localhost:5000 to access the application.
 
 # Usage
   1. Log in to your Spotify account using the web application.
