@@ -70,6 +70,7 @@ function organize() {
 }
 
 function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
+  var playlistId = window.location.pathname.split('/').pop();
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/execute_python", true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -84,12 +85,14 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
   };
   var data = JSON.stringify({
     python_file: pythonFile,
+    playlist_id: playlistId,
     sorting_type: sortingType,
     is_reverse: isReverse,
     is_new: isNew,
   });
   xhr.send(data);
 }
+
 function showCompleted() {
   var progress = document.getElementById("progress");
   progress.innerText = "Completed!";

@@ -1,11 +1,9 @@
 from requests import request
 from app import server_error
 from python.config import sp
-from flask import session
-
 
 def sorting_algorithm():
-    playlist_id = session.get("playlist_id")
+    playlist_id = request.json["playlist_id"]
     sorting_type = request.json["sorting_type"]
     is_reverse = request.json["is_reverse"]
     is_new = request.json["is_new"]
