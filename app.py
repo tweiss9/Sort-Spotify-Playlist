@@ -27,6 +27,7 @@ def playlists():
         if sp_oauth.is_token_expired(sp_oauth.get_cached_token()):
             return redirect("/login")
 
+        owner_id = sp.me()['id']
         user_playlists = []
         fetched_playlists = []
         offset = 0
@@ -39,16 +40,15 @@ def playlists():
             offset += limit
             if offset >= total_playlists:
                 break
-
+            
         user_playlists = [
             playlist for playlist in fetched_playlists 
             if (
-                playlist['owner']['id'] == sp.me()['id'] and
+                playlist['owner']['id'] == owner_id and
                 not playlist["collaborative"] and
                 playlist["tracks"]["total"] > 0
             )
         ]
-
         response = make_response(render_template(
             "playlists.html", playlists=user_playlists))
         return response
@@ -68,32 +68,30 @@ def playlist_detail(playlist_id):
         formatted_songs = []
 
         for song in songs:
-            try:
-                release_date_str = song["track"]["album"]["release_date"]
-                if release_date_str.startswith("0"):
-                    release_date = None
-                else:
-                    release_date = datetime.strptime(release_date_str, "%Y-%m-%d").strftime("%m/%d/%Y")
-            except ValueError:
+            track = song["track"]
+            album = track["album"]
+            release_date_str = album["release_date"]
+            
+            if release_date_str.startswith("0"):
+                release_date = None
+            else:
                 try:
-                    release_date_str = song["track"]["album"]["release_date"]
-                    if release_date_str.startswith("0"):
-                        release_date = None
-                    else:
-                        release_date = datetime.strptime(release_date_str, "%Y-%m").strftime("%m/%Y")
+                    release_date = datetime.strptime(release_date_str, "%Y-%m-%d").strftime("%m/%d/%Y")
                 except ValueError:
-                    release_date_str = song["track"]["album"]["release_date"]
-                    if release_date_str.startswith("0"):
-                        release_date = None
-                    else:
+                    try:
+                        release_date = datetime.strptime(release_date_str, "%Y-%m").strftime("%m/%Y")
+                    except ValueError:
                         release_date = datetime.strptime(release_date_str, "%Y").strftime("%Y")
-            song_info = {
-                "name": song["track"]["name"],
-                "artist": song["track"]["artists"][0]["name"],
-                "release_date": release_date,
-                "album_cover": song["track"]["album"]["images"][0]["url"] if song["track"]["album"]["images"] else None,
-            }
 
+            artist = track["artists"][0]
+            album_cover = album["images"][0]["url"] if album["images"] else None
+            
+            song_info = {
+                "name": track["name"],
+                "artist": artist["name"],
+                "release_date": release_date,
+                "album_cover": album_cover,
+            }
             formatted_songs.append(song_info)
 
         response = make_response(render_template(
@@ -110,7 +108,7 @@ def playlist_detail(playlist_id):
             return render_template("spotify_error.html")
     except Exception as e:
         print("Error:", e)
-        return server_error(Exception)
+        return server_error(e)
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
