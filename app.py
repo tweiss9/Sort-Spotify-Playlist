@@ -54,9 +54,9 @@ def playlists():
         return response
     except SpotifyException as e:
         if e.http_status == 404:
-            return render_template("playlist_404.html")
+            return render_template("error/playlist_404.html")
         else:
-            return render_template("spotify_error.html")
+            return render_template("error/spotify_error.html")
     except Exception as e:
         return server_error(e)
 
@@ -103,9 +103,9 @@ def playlist_detail(playlist_id):
         return response
     except SpotifyException as e:
         if e.http_status == 404:
-            return render_template("playlist_404.html")
+            return render_template("error/playlist_404.html")
         else:
-            return render_template("spotify_error.html")
+            return render_template("error/spotify_error.html")
     except Exception as e:
         print("Error:", e)
         return server_error(e)
@@ -133,16 +133,16 @@ def execute_python():
 @app.errorhandler(404)
 def page_not_found(error):
     error_message = str(error)
-    return render_template('404.html', error_message=error_message), 404
+    return render_template('error/404.html', error_message=error_message), 404
 
 @app.errorhandler(500)
 def server_error(error):
     error_message = str(error)
-    return render_template('500.html', error_message=error_message), 500
+    return render_template('error/500.html', error_message=error_message), 500
 
 @app.route('/500')
 def error_500():
-    return render_template('500.html')
+    return render_template('error/500.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

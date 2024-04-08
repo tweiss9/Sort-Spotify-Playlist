@@ -48,7 +48,7 @@ function organize() {
       }
       break;
     default:
-      window.location.href = "/500";
+      window.location.href = "error/500";
   }
 
   var progress = document.getElementById("progress");
@@ -65,7 +65,7 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
       if (xhr.status === 200) {
         showCompleted();
       } else {
-        window.location.href = "/500";
+        window.location.href = "error/500";
       }
     }
   };
