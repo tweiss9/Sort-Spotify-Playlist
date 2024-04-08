@@ -23,34 +23,42 @@ def callback():
 
 @app.route("/playlists")
 def playlists():
-    if sp_oauth.is_token_expired(sp_oauth.get_cached_token()):
-        return redirect("/login")
+    try:
+        if sp_oauth.is_token_expired(sp_oauth.get_cached_token()):
+            return redirect("/login")
 
-    user_playlists = []
-    fetched_playlists = []
-    offset = 0
-    limit = 50
+        user_playlists = []
+        fetched_playlists = []
+        offset = 0
+        limit = 50
 
-    while True:
-        response = sp.current_user_playlists(offset=offset, limit=limit)
-        fetched_playlists.extend(response["items"])
-        total_playlists = response["total"]
-        offset += limit
-        if offset >= total_playlists:
-            break
+        while True:
+            response = sp.current_user_playlists(offset=offset, limit=limit)
+            fetched_playlists.extend(response["items"])
+            total_playlists = response["total"]
+            offset += limit
+            if offset >= total_playlists:
+                break
 
-    user_playlists = [
-        playlist for playlist in fetched_playlists 
-        if (
-            playlist['owner']['id'] == sp.me()['id'] and
-            not playlist["collaborative"] and
-            playlist["tracks"]["total"] > 0
-        )
-    ]
+        user_playlists = [
+            playlist for playlist in fetched_playlists 
+            if (
+                playlist['owner']['id'] == sp.me()['id'] and
+                not playlist["collaborative"] and
+                playlist["tracks"]["total"] > 0
+            )
+        ]
 
-    response = make_response(render_template(
-        "playlists.html", playlists=user_playlists))
-    return response
+        response = make_response(render_template(
+            "playlists.html", playlists=user_playlists))
+        return response
+    except SpotifyException as e:
+        if e.http_status == 404:
+            return render_template("playlist_404.html")
+        else:
+            return render_template("spotify_error.html")
+    except Exception as e:
+        return server_error(e)
 
 @app.route("/playlist/<playlist_id>")
 def playlist_detail(playlist_id):
