@@ -48,7 +48,7 @@ function organize() {
       }
       break;
     default:
-      window.location.href = "error/500";
+      window.location.href = "500";
   }
 
   var progress = document.getElementById("progress");
@@ -56,7 +56,7 @@ function organize() {
 }
 
 function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
-  var playlistId = window.location.pathname.split('/').pop();
+  var playlistId = window.location.pathname.split("/").pop();
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/execute_python", true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -65,7 +65,7 @@ function executePythonFile(pythonFile, sortingType, isReverse, isNew) {
       if (xhr.status === 200) {
         showCompleted();
       } else {
-        window.location.href = "error/500";
+        window.location.href = "500";
       }
     }
   };
