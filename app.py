@@ -102,7 +102,7 @@ def playlist_detail(playlist_id):
         ))
         return response
     except SpotifyException as e:
-        if e.http_status == 404:
+        if e.http_status == 400:
             return render_template("error/playlist_404.html")
         else:
             return render_template("error/spotify_error.html")
@@ -140,7 +140,7 @@ def server_error(error):
     error_message = str(error)
     return render_template('error/500.html', error_message=error_message), 500
 
-@app.route('/500')
+@app.route('/playlist/500')
 def error_500():
     return render_template('error/500.html')
 
