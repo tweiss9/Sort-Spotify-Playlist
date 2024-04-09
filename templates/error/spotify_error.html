@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Spotify Internal Error">
+    <meta name="description" content="Spotify Internal Error" />
     <title>500 Spotify Server Error</title>
     <style>
       body {
@@ -22,12 +22,33 @@
         font-size: 48px;
         margin-bottom: 20px;
       }
+
+      @media (max-width: 500px) {
+        .error-heading {
+          font-size: 48px;
+        }
+
+        .error-message {
+          font-size: 30px;
+        }
+      }
+
+      @media (max-width: 397px) {
+        .error-heading {
+          font-size: 32px;
+        }
+
+        .error-message {
+          font-size: 20px;
+        }
+      }
     </style>
   </head>
   <body>
     <h1 class="error-heading">500 Spotify Server Error</h1>
     <p class="error-message">
-      An internal error while accessing Spotify servers has occurred. Please try again later.
+      An internal error while accessing Spotify servers has occurred. Please try
+      again later.
     </p>
   </body>
 </html>

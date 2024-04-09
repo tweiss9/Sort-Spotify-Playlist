@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="404 error">
+    <meta name="description" content="404 error" />
     <title>404 Not Found</title>
     <style>
       body {
@@ -21,6 +21,26 @@
       .error-message {
         font-size: 48px;
         margin-bottom: 20px;
+      }
+
+      @media (max-width: 500px) {
+        .error-heading {
+          font-size: 48px;
+        }
+
+        .error-message {
+          font-size: 20px;
+        }
+      }
+
+      @media (max-width: 397px) {
+        .error-heading {
+          font-size: 32px;
+        }
+
+        .error-message {
+          font-size: 15px;
+        }
       }
     </style>
   </head>

@@ -7,7 +7,7 @@
       name="description"
       content="Sort your Spotify playlist by release date, album name, and artist name"
     />
-    <title>Spotify Playlist Viewer</title>
+    <title>Spotify Playlist Sorter</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/index.css') }}"
@@ -24,6 +24,16 @@
   </head>
   <body class="home-page-body">
     <a
+      href="https://github.com/tweiss9/Sort-Spotify-Playlist"
+      class="github-link-button"
+    >
+      <img
+        src="{{ url_for('static', filename='images/github_logo.png') }}"
+        alt="GitHub Logo"
+        class="github-logo"
+      />
+    </a>
+    <a
       class="spotify-home-page-button"
       href="https://open.spotify.com/"
       title="spotify"
@@ -35,13 +45,12 @@
       />
     </a>
     <div class="main-container">
-      <h1 class="main-title">Spotify Playlist Viewer</h1>
-      <h2 class="main-subtitle">
-        Sort your Spotify playlists with ease!
-      </h2>
+      <h1 class="main-title">Spotify Playlist Sorter</h1>
+      <h2 class="main-subtitle">Sort your Spotify playlists with ease!</h2>
       <p class="main-description">
-        This powerful sorting tool helps you organize your music collection based
-        on track name, artist name and even release date. Sign in to sort your Spotify playlist.
+        This powerful sorting tool helps you organize your music collection
+        based on track name, artist name and even release date. Sign in to sort
+        your Spotify playlist.
       </p>
       <a class="spotify-sign-in-button" href="/login" title="spotify">
         <img
@@ -52,16 +61,7 @@
         Sign In with Spotify
       </a>
     </div>
-    <a
-      href="https://github.com/tweiss9/Sort-Spotify-Playlist"
-      class="github-link-button"
-    >
-      <img
-        src="{{ url_for('static', filename='images/github_logo.png') }}"
-        alt="GitHub Logo"
-        class="github-logo"
-      />
-    </a>
+
     <div class="footer">
       <p>&copy; 2023 Tyler Weiss. All rights reserved.</p>
     </div>

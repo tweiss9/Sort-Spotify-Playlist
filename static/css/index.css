@@ -15,31 +15,44 @@
   color: white;
 }
 
+.github-link-button,
+.github-logo {
+  width: 90px;
+  height: 90px;
+  position: absolute;
+  left: 20px;
+  border-radius: 50%;
+}
+
+.github-link-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 .spotify-home-page-button {
   position: absolute;
-  top: 5px;
+  top: 20px;
   right: 20px;
   display: inline-block;
   background-color: #1db954;
   color: white;
-  padding: 20px 40px;
+  padding: 10px;
   border-radius: 100px;
+}
+
+.spotify-home-link-logo {
+  width: 150px;
+  height: 45px;
+  vertical-align: middle;
 }
 
 .spotify-home-page-button:hover {
   background-color: #1ed760;
 }
 
-.spotify-home-link-logo {
-  width: 175px;
-  height: 50px;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
 .main-title {
   font-size: 60px;
-  margin: 20px 0px 60px 0px;
+  margin: 10px 0px 60px 0px;
   text-align: center;
 }
 
@@ -63,7 +76,7 @@
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 35px;
   justify-content: center;
   align-items: center;
   height: 100px;
@@ -76,23 +89,78 @@
 }
 
 .spotify-sign-in-logo {
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
   vertical-align: middle;
 }
 
-.github-link-button,
-.github-logo {
-  width: 80px;
-  height: 80px;
-  vertical-align: middle;
-  position: absolute;
-  top: 5px;
-  left: 20px;
+@media (max-width: 1024px) {
+  .main-title {
+    font-size: 50px;
+    margin-top: 20px;
+  }
 }
 
-.github-link-button:hover {
-  opacity: 0.5;
-  cursor: pointer;
+@media (max-width: 945px) {
+  .main-title {
+    margin-top: 90px;
+    font-size: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-subtitle {
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+
+  .main-description {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-title {
+    font-size: 40px;
+    margin-top: 90px;
+  }
+
+  .main-subtitle {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  .main-description {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 421px) {
+  .main-title {
+    font-size: 30px;
+    margin-top: 100px;
+  }
+
+  .main-subtitle {
+    font-size: 19px;
+    margin-bottom: 20px;
+  }
+
+  .main-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .spotify-sign-in-button {
+    font-size: 25px;
+    height: 80px;
+    width: 300px;
+  }
+  .spotify-sign-in-logo {
+    width: 40px;
+    height: 45px;
+  }
 }

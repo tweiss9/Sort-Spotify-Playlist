@@ -97,3 +97,23 @@
   background-color: #00a800;
   border-radius: 5px;
 }
+
+@media (max-width: 545px) {
+  .your-playlist-title {
+    font-size: 32px;
+  }
+
+  .get-started {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 370px) {
+  .your-playlist-title {
+    font-size: 27px;
+  }
+
+  .get-started {
+    font-size: 18px;
+  }
+}

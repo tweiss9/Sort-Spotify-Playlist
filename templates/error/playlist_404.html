@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="404 error playlist not found">
+    <meta name="description" content="404 error playlist not found" />
     <title>Playlist Not Found</title>
     <style>
       body {
@@ -13,32 +13,54 @@
         padding: 50px;
       }
 
-      .playlist-error-heading {
+      .error-heading {
         font-size: 64px;
         margin-bottom: 20px;
       }
 
-      .playlist-error-message {
+      .error-message {
         font-size: 48px;
         margin-bottom: 20px;
       }
 
-      .playlist-error-link {
+      .error-link {
         font-size: 48px;
         color: #1db954;
         text-decoration: none;
       }
 
-      .playlist-error-link:hover {
+      .error-link:hover {
         text-decoration: underline;
+      }
+
+      @media (max-width: 500px) {
+        .error-heading {
+          font-size: 48px;
+        }
+
+        .error-message,
+        .error-link {
+          font-size: 30px;
+        }
+      }
+
+      @media (max-width: 397px) {
+        .error-heading {
+          font-size: 32px;
+        }
+
+        .error-message,
+        .error-link {
+          font-size: 20px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1 class="playlist-error-heading">Playlist Not Found</h1>
-    <p class="playlist-error-message">The requested playlist does not exist.</p>
+    <h1 class="error-heading">Playlist Not Found</h1>
+    <p class="error-message">The requested playlist does not exist.</p>
     <p>
-      <a class="playlist-error-link" href="/playlists">
+      <a class="error-link" href="/playlists">
         Go back to the previous page and click on a valid one
       </a>
     </p>

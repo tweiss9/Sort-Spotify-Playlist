@@ -34,7 +34,7 @@
   align-items: center;
   justify-content: center;
   font-size: 30px;
-  margin: 20px auto 50px;
+  margin: 40px auto 60px auto;
 }
 
 .playlist-detail-content {
@@ -123,4 +123,49 @@
 
 .organize-button:hover {
   background-color: #1ed760;
+}
+
+@media (max-width: 768px) {
+  .playlist-detail-top {
+    flex-direction: column;
+  }
+
+  .playlist-detail-content {
+    margin-left: 0;
+  }
+
+  .playlist-detail-table {
+    width: 100%;
+  }
+
+  .organize-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .playlist-detail-content {
+    font-size: 18px;
+    margin: 10px auto 5px auto;
+  }
+  .playlist-detail-name-title {
+    font-size: 20px;
+  }
+
+  .playlist-detail-notice {
+    font-size: 18px;
+  }
+
+  .organize-button {
+    font-size: 24px;
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 425px) {
+  .playlist-detail-content {
+    font-size: 15px;
+    margin: 10px auto 5px auto;
+  }
 }
