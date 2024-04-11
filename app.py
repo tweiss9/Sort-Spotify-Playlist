@@ -51,6 +51,9 @@ def playlists():
         ]
         response = make_response(render_template(
             "playlists.html", playlists=user_playlists))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
         return response
     except SpotifyException as e:
         if e.http_status == 404:
@@ -100,6 +103,9 @@ def playlist_detail(playlist_id):
             songs=formatted_songs,
             playlist_cover=playlist["images"][0]["url"] if playlist["images"] else None,
         ))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
         return response
     except SpotifyException as e:
         if e.http_status == 400:
