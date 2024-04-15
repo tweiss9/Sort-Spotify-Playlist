@@ -2,7 +2,7 @@
 
 This project is a web application that allows you to sort your Spotify playlist by release date, album name, and artist name. You can also create a new playlist or update an existing one with the sorted tracks.
 
-Watch the walkthrough video here:
+Watch the walkthrough Youtube video by clicking on the picture below:
 
 [![Spotify Playlist](readme-pictures/spotify-thumbnail.png)](https://www.youtube.com/watch?v=wrim0mVI4ow "Spotify Playlist")
 
