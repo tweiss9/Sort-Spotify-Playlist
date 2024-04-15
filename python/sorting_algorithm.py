@@ -1,6 +1,7 @@
+from flask import session
 from requests import request
 from app import server_error
-from python.config import sp
+import spotipy
 
 def sorting_algorithm():
     playlist_id = request.json["playlist_id"]
@@ -8,6 +9,11 @@ def sorting_algorithm():
     is_reverse = request.json["is_reverse"]
     is_new = request.json["is_new"]
 
+    # Initialize the Spotify client
+    token_info = session.get('token_info', None)
+    access_token = token_info['access_token']
+    sp = spotipy.Spotify(auth=access_token)
+    
     # Retrieve the playlist name
     playlist = sp.playlist(playlist_id=playlist_id)
     playlist_name = playlist["name"]

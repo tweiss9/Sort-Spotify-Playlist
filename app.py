@@ -1,12 +1,14 @@
 from datetime import datetime
-from flask_compress import Compress
-from flask import Flask, Response, make_response, render_template, redirect, request
+from flask import Flask, Response, jsonify, make_response, render_template, redirect, request, session
+import requests
 from spotipy.exceptions import SpotifyException
-from python.config import sp, sp_oauth
+from python.config import client_id, client_secret, redirect_uri, scope
+import spotipy
 import os
+from waitress import serve
 
-app = Flask(__name__, static_folder="static", template_folder="templates")
-app.secret_key = os.environ.get("PROJECT_SPOTIFY_FLASK_SECRET_KEY")
+app = Flask(__name__, static_folder="public/static", template_folder="public/templates")
+app.secret_key = os.environ.get("SPOTIFY_FLASK_SECRET_KEY")
 
 @app.route("/")
 def home():
@@ -14,27 +16,58 @@ def home():
 
 @app.route("/login")
 def login():
-    auth_url = sp_oauth.get_authorize_url()
-    return redirect(auth_url)
+    try:
+        session.clear()
+        sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
+        auth_url = sp_oauth.get_authorize_url()
+        return redirect(auth_url)
+    except Exception:
+        return server_error()
+    
+@app.route("/logout")
+def logout():
+    token_info = session.get('token_info', None)
+    if token_info:
+        access_token = token_info['access_token']
+        requests.post('https://accounts.spotify.com/api/revoke', data={'token': access_token})
+        session.clear()
+        try:
+            os.remove(".cache")
+        except OSError:
+            pass
+    return jsonify({'status': 'success'}), 200
 
 @app.route("/callback")
 def callback():
+    code = request.args.get('code')
+    sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
+    token_info = sp_oauth.get_cached_token()
+    if not token_info:
+        token_info = sp_oauth.get_access_token(code)
+    session['token_info'] = token_info
+    spotify_user = spotipy.Spotify(auth=token_info['access_token'])
+    user_id = spotify_user.me()['id']
+    session['user_id'] = user_id
     return redirect("/playlists")
 
 @app.route("/playlists")
 def playlists():
     try:
-        if sp_oauth.is_token_expired(sp_oauth.get_cached_token()):
-            return redirect("/login")
+        token_info = session.get('token_info', None)
+        if not token_info:
+            return redirect("/login") 
 
-        owner_id = sp.me()['id']
+        spotify_user = spotipy.Spotify(auth=token_info['access_token'])
+        current_user_id = spotify_user.me()['id']
+        if session.get('user_id') != current_user_id:
+            return redirect("/login")
         user_playlists = []
         fetched_playlists = []
         offset = 0
         limit = 50
 
         while True:
-            response = sp.current_user_playlists(offset=offset, limit=limit)
+            response = spotify_user.current_user_playlists(offset=offset, limit=limit)
             fetched_playlists.extend(response["items"])
             total_playlists = response["total"]
             offset += limit
@@ -44,7 +77,7 @@ def playlists():
         user_playlists = [
             playlist for playlist in fetched_playlists 
             if (
-                playlist['owner']['id'] == owner_id and
+                playlist['owner']['id'] == current_user_id and
                 not playlist["collaborative"] and
                 playlist["tracks"]["total"] > 0
             )
@@ -60,13 +93,17 @@ def playlists():
             return render_template("error/playlist_404.html")
         else:
             return render_template("error/spotify_error.html")
-    except Exception as e:
-        return server_error(e)
+    except Exception:
+        return server_error()
 
 @app.route("/playlist/<playlist_id>")
 def playlist_detail(playlist_id):
     try:
-        playlist = sp.playlist(playlist_id)
+        token_info = session.get('token_info', None)
+        if not token_info:
+            return redirect("/login")
+        spotify_user = spotipy.Spotify(auth=token_info['access_token'])
+        playlist = spotify_user.playlist(playlist_id)
         songs = playlist["tracks"]["items"]
         formatted_songs = []
 
@@ -112,9 +149,8 @@ def playlist_detail(playlist_id):
             return render_template("error/playlist_404.html")
         else:
             return render_template("error/spotify_error.html")
-    except Exception as e:
-        print("Error:", e)
-        return server_error(e)
+    except Exception:
+        return server_error()
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
@@ -131,24 +167,22 @@ def execute_python():
             exec(code, globals(), {'playlist_id': playlist_id, 'sorting_type': sorting_type,
                 'is_reverse': is_reverse, 'is_new': is_new})
             return Response(status=200)
-    except FileNotFoundError as e:
-        return page_not_found(e)
-    except Exception as e:
-        return server_error(e)
+    except FileNotFoundError:
+        return page_not_found()
+    except Exception:
+        return server_error()
 
 @app.errorhandler(404)
-def page_not_found(error):
-    error_message = str(error)
-    return render_template('error/404.html', error_message=error_message), 404
+def page_not_found(e):
+    return render_template('error/404.html'), 404
 
 @app.errorhandler(500)
-def server_error(error):
-    error_message = str(error)
-    return render_template('error/500.html', error_message=error_message), 500
+def server_error(e):
+    return render_template('error/500.html'), 500
 
 @app.route('/playlist/500')
 def error_500():
     return render_template('error/500.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    serve(app, host='127.0.0.1', port=5000)
