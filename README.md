@@ -2,6 +2,16 @@
 
 This project is a web application that allows you to sort your Spotify playlist by release date, album name, and artist name. You can also create a new playlist or update an existing one with the sorted tracks.
 
+Watch the walkthrough video here:
+
+[![Spotify Playlist](readme-pictures/spotify-thumbnail.png)](https://www.youtube.com/watch?v=wrim0mVI4ow "Spotify Playlist")
+
+Pictures of the website are below
+
+![Website Picture 1](readme-pictures/playlist-list.png)
+
+![Website Picture 2](readme-pictures/certain-playlist.png)
+
 ## Getting Started
 
 To use this application, you need to have a Spotify account and create a Spotify application to obtain the client ID and client secret. You also need to have Python 3 installed on your computer.
