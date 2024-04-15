@@ -39,25 +39,31 @@ def logout():
 
 @app.route("/callback")
 def callback():
-    code = request.args.get('code')
-    sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
-    token_info = sp_oauth.get_cached_token()
-    if not token_info:
-        token_info = sp_oauth.get_access_token(code)
-    session['token_info'] = token_info
-    spotify_user = spotipy.Spotify(auth=token_info['access_token'])
-    user_id = spotify_user.me()['id']
-    session['user_id'] = user_id
+    try:
+        code = request.args.get('code')
+        sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
+        token_info = sp_oauth.get_cached_token()
+        if not token_info:
+            token_info = sp_oauth.get_access_token(code)
+        elif sp_oauth.is_token_expired(token_info):
+            token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
+        session['token_info'] = token_info
+        spotify_user = spotipy.Spotify(auth=token_info['access_token'])
+        user_id = spotify_user.me()['id']
+        session['user_id'] = user_id
+    except Exception:
+        return server_error()
     return redirect("/playlists")
 
 @app.route("/playlists")
 def playlists():
     try:
+        sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
         token_info = session.get('token_info', None)
-        if not token_info:
-            return redirect("/login") 
-
+        if not token_info or sp_oauth.is_token_expired(token_info):
+            return redirect("/login")
         spotify_user = spotipy.Spotify(auth=token_info['access_token'])
+
         current_user_id = spotify_user.me()['id']
         if session.get('user_id') != current_user_id:
             return redirect("/login")
@@ -99,8 +105,9 @@ def playlists():
 @app.route("/playlist/<playlist_id>")
 def playlist_detail(playlist_id):
     try:
+        sp_oauth = spotipy.SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri, scope=scope)
         token_info = session.get('token_info', None)
-        if not token_info:
+        if not token_info or sp_oauth.is_token_expired(token_info):
             return redirect("/login")
         spotify_user = spotipy.Spotify(auth=token_info['access_token'])
         playlist = spotify_user.playlist(playlist_id)
