@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, Response, jsonify, make_response, render_template, redirect, request, session
+from flask import Flask, Response, flash, jsonify, make_response, render_template, redirect, request, session
 import requests
 from spotipy.exceptions import SpotifyException
 from python.config import client_id, client_secret, redirect_uri, scope
@@ -35,7 +35,12 @@ def logout():
             os.remove(".cache")
         except OSError:
             pass
-    return jsonify({'status': 'success'}), 200
+    response = jsonify({'status': 'success'})
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    response.set_cookie('session', '', expires=0)
+    return response, 200
 
 @app.route("/callback")
 def callback():
