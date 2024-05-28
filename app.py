@@ -1,21 +1,15 @@
 from datetime import datetime
-from flask import Flask, Response, jsonify, make_response, render_template, redirect, request, session
+from flask import Flask, jsonify, make_response, render_template, redirect, request, session
 import requests
 from spotipy.exceptions import SpotifyException
 from python.config import client_id, client_secret, redirect_uri, scope
-from werkzeug.utils import secure_filename
 import spotipy
 import os
 from waitress import serve
+from python.sorting_algorithm import sorting_algorithm
 
 app = Flask(__name__, static_folder="public/static", template_folder="public/templates")
 app.secret_key = os.environ.get("SPOTIFY_FLASK_SECRET_KEY")
-SAFE_SCRIPT_DIRECTORY = os.path.join(os.getcwd(), "python")
-
-def is_safe_path(basedir, path, follow_symlinks=True):
-    if follow_symlinks:
-        return os.path.realpath(path).startswith(basedir)
-    return os.path.abspath(path).startswith(basedir)
 
 @app.route("/")
 def home():
@@ -171,26 +165,19 @@ def playlist_detail(playlist_id):
     except Exception:
         return server_error()
 
-@app.route("/execute_python", methods=["POST"])
+@app.route("/execute_sorting", methods=["POST"])
 def execute_python():
     try:
-        data = request.json
-        python_file = data["python_file"]
-        playlist_id = data["playlist_id"]
-        sorting_type = data["sorting_type"]
-        is_reverse = data["is_reverse"]
-        is_new = data["is_new"]
-        safe_filename = secure_filename(python_file)
-        file_path = os.path.join(SAFE_SCRIPT_DIRECTORY, safe_filename)
-    
-        if not is_safe_path(SAFE_SCRIPT_DIRECTORY, file_path):
-            return jsonify({"error": "Invalid file path"}), 400
+        data = request.get_json()
+        playlist_id = data.get('playlist_id')
+        sorting_type = data.get('sorting_type')
+        is_reverse = data.get('is_reverse')
+        is_new = data.get('is_new')
         
-        with open(file_path) as f:
-            code = compile(f.read(), file_path, 'exec')
-            exec(code, globals(), {'playlist_id': playlist_id, 'sorting_type': sorting_type,
-                'is_reverse': is_reverse, 'is_new': is_new})
-            return Response(status=200)
+        if None in [playlist_id, sorting_type, is_reverse, is_new]:
+            return jsonify({'error': 'Missing parameters'}), 400
+        sorting_algorithm(playlist_id=playlist_id, sorting_type=sorting_type, is_reverse=is_reverse, is_new=is_new)
+        return jsonify({'status': 'success'}), 200
     except FileNotFoundError:
         return page_not_found()
     except Exception:
