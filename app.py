@@ -1,14 +1,21 @@
 from datetime import datetime
-from flask import Flask, Response, flash, jsonify, make_response, render_template, redirect, request, session
+from flask import Flask, Response, jsonify, make_response, render_template, redirect, request, session
 import requests
 from spotipy.exceptions import SpotifyException
 from python.config import client_id, client_secret, redirect_uri, scope
+from werkzeug.utils import secure_filename
 import spotipy
 import os
 from waitress import serve
 
 app = Flask(__name__, static_folder="public/static", template_folder="public/templates")
 app.secret_key = os.environ.get("SPOTIFY_FLASK_SECRET_KEY")
+SAFE_SCRIPT_DIRECTORY = os.path.join(os.getcwd(), "python")
+
+def is_safe_path(basedir, path, follow_symlinks=True):
+    if follow_symlinks:
+        return os.path.realpath(path).startswith(basedir)
+    return os.path.abspath(path).startswith(basedir)
 
 @app.route("/")
 def home():
@@ -166,14 +173,19 @@ def playlist_detail(playlist_id):
 
 @app.route("/execute_python", methods=["POST"])
 def execute_python():
-    python_file = request.json["python_file"]
-    playlist_id = request.json["playlist_id"]
-    sorting_type = request.json["sorting_type"]
-    is_reverse = request.json["is_reverse"]
-    is_new = request.json["is_new"]
-
     try:
-        file_path = f"python/{python_file}"
+        data = request.json
+        python_file = data["python_file"]
+        playlist_id = data["playlist_id"]
+        sorting_type = data["sorting_type"]
+        is_reverse = data["is_reverse"]
+        is_new = data["is_new"]
+        safe_filename = secure_filename(python_file)
+        file_path = os.path.join(SAFE_SCRIPT_DIRECTORY, safe_filename)
+    
+        if not is_safe_path(SAFE_SCRIPT_DIRECTORY, file_path):
+            return jsonify({"error": "Invalid file path"}), 400
+        
         with open(file_path) as f:
             code = compile(f.read(), file_path, 'exec')
             exec(code, globals(), {'playlist_id': playlist_id, 'sorting_type': sorting_type,
